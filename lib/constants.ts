@@ -15,10 +15,10 @@ export const PASSWORD_MIN_LENGTH = 8;
 export const PASSWORD_MIN_LENGTH_ERROR = `Must be at least ${PASSWORD_MIN_LENGTH} characters`;
 
 export const PASSWORD_REGEX = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[#?!@$%^&*-]).+$/
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*?[#?!@$%^&*-]).+$/
 );
 export const PASSWORD_REGEX_ERROR =
-  "Passwords must contain at least one UPPERCASE, lowercase, number and special characters #?!@$%^&*-";
+  "Passwords must contain at least one English, Number and special characters #?!@$%^&*-";
 
 export const CONFIRM_PASSWORD_INVALID_TYPE_ERROR = "Invalid Confirm_Password";
 export const CONFIRM_PASSWORD_REQUIRED_ERROR = "Confirm_Password is required";
