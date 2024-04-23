@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import getSession from "./lib/session";
+import getSession from "./lib/session/getSession";
 
 interface Routes {
   [key: string]: boolean;
@@ -38,5 +38,5 @@ export async function middleware(request: NextRequest) {
 // 특정 url에 미들웨어가 동작 하도록 설정함
 // ex) matcher: ['profile', '/about/:path*', '/dashboard/:path*']
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|images|favicon.ico).*)"],
 };

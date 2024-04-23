@@ -23,8 +23,7 @@ import bcrypt from "bcrypt";
 import db from "@/lib/db";
 
 import { z } from "zod";
-import { redirect } from "next/navigation";
-import getSession from "@/lib/session";
+import UpdateSession from "@/lib/session/updateSession";
 
 // 특정 문자 입력금지
 const checkUsername = (username: string) => !username.includes("potato");
@@ -148,11 +147,7 @@ export async function createAccount(prevState: any, formData: FormData) {
       },
     });
 
-    // 쿠키 저장 및 로그인
-    const session = await getSession();
-    session.id = user.id;
-    await session.save();
-    // 프로필 페이지로 이동
-    redirect("/profile");
+    // 쿠키 저장 및 로그인 후 프로필 페이지로 이동
+    await UpdateSession(user.id);
   }
 }

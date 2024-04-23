@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import getSession from "@/lib/session";
+import getSession from "@/lib/session/getSession";
 import { notFound, redirect } from "next/navigation";
 
 // 유저 정보 가져옴

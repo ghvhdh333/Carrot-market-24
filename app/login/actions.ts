@@ -8,9 +8,8 @@ import {
   PASSWORD_REGEX_ERROR,
 } from "@/lib/constants";
 import db from "@/lib/db";
-import getSession from "@/lib/session";
+import UpdateSession from "@/lib/session/updateSession";
 import bcrypt from "bcrypt";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const checkEmailExists = async (email: string) => {
@@ -72,12 +71,9 @@ export async function logInForm(prevState: any, formData: FormData) {
     const ok = await bcrypt.compare(result.data.password, user!.password ?? "");
 
     // 비밀번호가 일치하면 로그인을 시킨다.
-    // 로그인이 되면, /profile 페이지로 이동시킨다.
     if (ok) {
-      const session = await getSession();
-      session.id = user!.id;
-      await session.save();
-      redirect("/profile");
+      // 로그인 후 프로필 페이지로 이동한다.
+      await UpdateSession(user!.id);
     } else {
       return {
         fieldErrors: {
