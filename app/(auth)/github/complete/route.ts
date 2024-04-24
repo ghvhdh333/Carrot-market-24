@@ -31,7 +31,6 @@ export async function GET(request: NextRequest) {
 
   // github 유저 이메일 데이터 가져오기
   const email = await getGithubEmail(access_token);
-  console.log("bb", email);
 
   // 기존에 github로 가입한 유저인지 확인한다.
   const user = await db.user.findUnique({
