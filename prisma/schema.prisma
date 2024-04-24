@@ -18,6 +18,7 @@ model User {
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   SMSToken   SMSToken[]
+  Product    Product[]
 }
 
 model SMSToken {
@@ -33,3 +34,15 @@ model SMSToken {
 // Cascade : 부모 노드 삭제하면 현재 노드 삭제
 // Restrict : 현재 노드를 삭제하지 않으면 부모 노드는 삭제 불가
 // SetNull : 부모 노드가 삭제되면, 현재 노드에 부모를 가리키는 속성 값은 NULL (이 때, Type은 ? (Optional) 해야한다.)
+
+model Product {
+  id          Int      @id @default(autoincrement()) // 1부터 순차적으로 커진다.
+  title       String
+  price       Float // 소수점까지 표시됌 ex) 31.4
+  photo       String
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade) // userId의 경로를 알려주는 줄임
+  userId      Int
+}

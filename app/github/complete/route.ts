@@ -4,6 +4,7 @@ import { NextRequest } from "next/server";
 import getGithubAccessToken from "../getGithubAccessToken";
 import getGithubProfile from "../getGithubProfile";
 import getGithubEmail from "../getGithubEmail";
+import { redirect } from "next/navigation";
 
 // github 소셜로그인 요청이 성공적으로 되면 url에 코드를 가져온다.
 // ex) http://localhost:3000/github/complete?code=fsafsdafas
@@ -46,6 +47,7 @@ export async function GET(request: NextRequest) {
   if (user) {
     // 로그인 후 프로필 페이지로 이동한다.
     await UpdateSession(user.id);
+    redirect("/profile");
   }
   // github 소셜로그인으로 처음 가입한 유저라면
   // 계정을 새로 등록한다.
@@ -63,5 +65,6 @@ export async function GET(request: NextRequest) {
     });
     // 로그인 후 프로필 페이지로 이동한다.
     await UpdateSession(newUser.id);
+    redirect("/profile");
   }
 }

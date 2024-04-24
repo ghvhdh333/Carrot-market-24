@@ -18,6 +18,10 @@ export default function SMSLogin() {
       <div className="flex flex-col gap-2 *:font-medium">
         <h1 className="text-2xl">SMS Log in</h1>
         <h2 className="text-xl">Verify your phone number.</h2>
+        <h3 className="text-orange-400">
+          Currently, the SMS login function has been discontinued due to cost
+          issues.
+        </h3>
       </div>
       <form action={action} className="flex flex-col gap-3">
         {state.token ? (
