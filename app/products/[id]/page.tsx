@@ -57,7 +57,12 @@ export default async function ProductDetail({
   return (
     <div>
       <div className="relative aspect-square">
-        <Image fill src={product.photo} alt={product.title} />
+        <Image
+          className="object-cover"
+          fill
+          src={product.photo}
+          alt={product.title}
+        />
       </div>
       <div className="p-5 flex items-center gap-3 border-b border-neutral-700">
         <div className="size-10 rounded-full">
@@ -83,7 +88,7 @@ export default async function ProductDetail({
       </div>
       <div className="fixed w-full bottom-0 left-0 p-5 pb-10 bg-neutral-800 flex justify-between items-center">
         <span className="font-semibold text-xl">
-          {formatToWon(product.price)}원
+          {formatToWon(product.price)} 원
         </span>
         {isOwner ? (
           <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold">

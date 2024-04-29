@@ -1,3 +1,4 @@
+// 상품 페이지 스켈레톤
 export default function Loading() {
   return (
     <div className="p-5 animate-pulse flex flex-col gap-5">
