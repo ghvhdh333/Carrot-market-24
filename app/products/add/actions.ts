@@ -5,20 +5,55 @@ import fs from "fs/promises";
 import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { redirect } from "next/navigation";
+import {
+  PHOTO_REQUIRED_ERROR,
+  PHOTO_INVALID_TYPE_ERROR,
+  TITLE_REQUIRED_ERROR,
+  TITLE_INVALID_TYPE_ERROR,
+  TITLE_MIN_LENGTH,
+  TITLE_MIN_LENGTH_ERROR,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_ERROR,
+  DESCRIPTION_REQUIRED_ERROR,
+  DESCRIPTION_INVALID_TYPE_ERROR,
+  DESCRIPTION_MIN_LENGTH,
+  DESCRIPTION_MIN_LENGTH_ERROR,
+  DESCRIPTION_MAX_LENGTH,
+  DESCRIPTION_MAX_LENGTH_ERROR,
+  PRICE_REQUIRED_ERROR,
+  PRICE_INVALID_TYPE_ERROR,
+  PRICE_MIN,
+  PRICE_MIN_ERROR,
+  PRICE_MAX,
+  PRICE_MAX_ERROR,
+} from "@/lib/constants";
 
 const productSchema = z.object({
   photo: z.string({
-    required_error: "Photo is required",
+    required_error: PHOTO_REQUIRED_ERROR,
+    invalid_type_error: PHOTO_INVALID_TYPE_ERROR,
   }),
-  title: z.string({
-    required_error: "Title is required",
-  }),
-  description: z.string({
-    required_error: "Description is required",
-  }),
-  price: z.coerce.number({
-    required_error: "Price is required",
-  }),
+  title: z
+    .string({
+      required_error: TITLE_REQUIRED_ERROR,
+      invalid_type_error: TITLE_INVALID_TYPE_ERROR,
+    })
+    .min(TITLE_MIN_LENGTH, TITLE_MIN_LENGTH_ERROR)
+    .max(TITLE_MAX_LENGTH, TITLE_MAX_LENGTH_ERROR),
+  description: z
+    .string({
+      required_error: DESCRIPTION_REQUIRED_ERROR,
+      invalid_type_error: DESCRIPTION_INVALID_TYPE_ERROR,
+    })
+    .min(DESCRIPTION_MIN_LENGTH, DESCRIPTION_MIN_LENGTH_ERROR)
+    .max(DESCRIPTION_MAX_LENGTH, DESCRIPTION_MAX_LENGTH_ERROR),
+  price: z.coerce
+    .number({
+      required_error: PRICE_REQUIRED_ERROR,
+      invalid_type_error: PRICE_INVALID_TYPE_ERROR,
+    })
+    .min(PRICE_MIN, PRICE_MIN_ERROR)
+    .max(PRICE_MAX, PRICE_MAX_ERROR),
 });
 
 export async function uploadProduct(_: any, formData: FormData) {

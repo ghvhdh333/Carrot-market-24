@@ -30,6 +30,7 @@ export default function AddProduct() {
       setPreview(url);
     } else {
       setIsImgSizeOk(false);
+      setPreview("");
     }
   };
   return (
@@ -86,7 +87,16 @@ export default function AddProduct() {
           placeholder="Description"
           errors={state?.fieldErrors.description}
         />
-        <Button text="Upload" />
+        {isImgSizeOk ? (
+          <Button text="Upload" />
+        ) : (
+          <button
+            disabled={true}
+            className="primary-btn h-10 disabled:bg-neutral-400 disabled:text-neutral-300 disabled:cursor-not-allowed"
+          >
+            Please check the file size
+          </button>
+        )}
       </form>
     </div>
   );
