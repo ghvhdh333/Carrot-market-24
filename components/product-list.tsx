@@ -23,7 +23,6 @@ export default function ProductList({ initialProducts }: ProductListProps) {
         observer: IntersectionObserver
       ) => {
         const element = entries[0];
-        console.log(entries);
         // 화면에 버튼이 보이면
         if (element.isIntersecting && trigger.current) {
           // 트리거를 관찰하지 않고,

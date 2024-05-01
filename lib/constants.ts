@@ -22,3 +22,5 @@ export const PASSWORD_REGEX_ERROR =
 
 export const CONFIRM_PASSWORD_INVALID_TYPE_ERROR = "Invalid Confirm_Password";
 export const CONFIRM_PASSWORD_REQUIRED_ERROR = "Confirm_Password is required";
+
+export const IMAGE_MAX_SIZE = 1024 * 1024 * 3; // (= 3MB)

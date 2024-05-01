@@ -52,11 +52,8 @@ export async function logInForm(prevState: any, formData: FormData) {
 
   const result = await formSchema.safeParseAsync(data);
   if (!result.success) {
-    console.log(result.error.flatten());
     return result.error.flatten();
   } else {
-    console.log(result.data);
-
     // 유저의 이메일을 찾는다.
     const user = await db.user.findUnique({
       where: {
