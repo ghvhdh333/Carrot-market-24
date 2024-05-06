@@ -20,16 +20,14 @@ import { usePathname } from "next/navigation";
 export default function TabBar() {
   const pathname = usePathname();
   return (
-    <div className="fixed bottom-0 w-full mx-auto max-w-screen-md grid grid-cols-5 border-neutral-600 bg-neutral-900 border-t px-5 py-3 *:text-white">
-      <Link href="/products" className="flex flex-col items-center gap-px">
-        {pathname === "/products" ? (
+    <div className="fixed bottom-0 w-full mx-auto max-w-screen-sm grid grid-cols-5 border-neutral-600 bg-neutral-900 border-t px-5 py-3 *:text-white">
+      <Link href="/home" className="flex flex-col items-center gap-px">
+        {pathname === "/home" ? (
           <SolidHomeIcon className="text-orange-400 w-7 h-7" />
         ) : (
           <OutlineHomeIcon className="w-7 h-7" />
         )}
-        <span
-          className={`${pathname === "/products" ? "text-orange-400" : ""}`}
-        >
+        <span className={`${pathname === "/home" ? "text-orange-400" : ""}`}>
           Home
         </span>
       </Link>

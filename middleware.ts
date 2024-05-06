@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
   else {
     // 로그인 & publicOnlyUrls에 포함된 경우, 상품 페이지로 이동시킴
     if (exists) {
-      return NextResponse.redirect(new URL("/products", request.url));
+      return NextResponse.redirect(new URL("/home", request.url));
     }
   }
 }
