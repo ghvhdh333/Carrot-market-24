@@ -6,6 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const product = await getProduct(Number(params.id));
+  return {
+    title: product?.title,
+  };
+}
+
 // 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
 async function getIsOwner(userId: number) {
   const session = await getSession();

@@ -3,6 +3,16 @@ import db from "@/lib/db";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
+import { unstable_cache as nextCache, revalidatePath } from "next/cache";
+
+export const metadata = {
+  title: "home",
+};
+
+// 상품 리스트를 cache로 저장한다.
+// getInitialProducts 함수가 60초 이내에 재호출 시 cache에 저장된 기존 데이터를 보여주고,
+// getInitialProducts 함수가 60초 이후에 재호출 시 nextCache에 있는 함수(getInitialProducts)를 호출하여, 데이터를 갱신하고, 함수 호출 시 다시 revalidate 시간이 작동한다.
+const getCacheProducts = nextCache(getInitialProducts, ["home-products"]);
 
 async function getInitialProducts() {
   // take에 적힌 수 만큼 상품 리스트 가져옴
@@ -27,7 +37,7 @@ export type InitialProducts = Prisma.PromiseReturnType<
 >;
 
 export default async function Products() {
-  const initialProducts = await getInitialProducts();
+  const initialProducts = await getCacheProducts();
   return (
     <div>
       <ProductList initialProducts={initialProducts} />
