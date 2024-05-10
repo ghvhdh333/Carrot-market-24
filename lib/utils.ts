@@ -6,8 +6,11 @@ export function formatToTimeAgo(date: string): string {
 
   // 3일 전 또는 3일 후 처럼 나옴
   const formatter = new Intl.RelativeTimeFormat("ko");
-
-  return formatter.format(diff, "days");
+  if (formatter.format(diff, "days") === "0일 전") {
+    return "오늘";
+  } else {
+    return formatter.format(diff, "days");
+  }
 }
 
 export function formatToWon(price: number): string {
