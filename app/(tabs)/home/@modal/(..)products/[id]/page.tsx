@@ -61,15 +61,16 @@ export default async function Modal({ params }: { params: { id: string } }) {
 
   const isOwner = await getIsOwner(product.userId);
   return (
-    <div className="absolute w-full h-full z-50 flex flex-row items-center justify-center bg-black bg-opacity-60 left-0 top-0">
+    <div className="absolute w-full h-full z-50 flex flex-row items-center justify-center bg-opacity-60 left-0 top-0">
       <ModalCloseBtn />
       <div className="max-w-screen-sm flex flex-row justify-center w-full h-1/2 ">
         <div className="flex flex-row justify-center items-center text-neutral-200 rounded-md w-2/3">
-          <div className="w-full ">
+          <div className="w-full bg-black ">
             <div className="relative aspect-square">
               <Image
                 className="object-cover rounded-md"
                 fill
+                sizes="426.66px"
                 src={product.photo}
                 alt={product.title}
               />
