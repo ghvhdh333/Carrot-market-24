@@ -7,7 +7,7 @@
 //   return <>loading</>;
 // }
 
-import ModalCloseBtn from "@/components/modal-close-btn";
+import ModalCloseBtn from "@/components/buttons/modal-close-btn";
 import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { formatToWon } from "@/lib/utils";
