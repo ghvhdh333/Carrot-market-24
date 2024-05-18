@@ -1,6 +1,11 @@
+import ProductDeleteBtn from "@/components/buttons/product-delete-btn";
 import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { formatToWon } from "@/lib/utils";
+import {
+  ChatBubbleOvalLeftEllipsisIcon,
+  WrenchScrewdriverIcon,
+} from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
 import Image from "next/image";
@@ -18,7 +23,6 @@ async function getIsOwner(userId: number) {
 
 // 상품 정보와 등록한 유저의 정보를 가져온다.
 async function getProduct(id: number) {
-  console.log("product");
   const product = await db.product.findUnique({
     where: {
       id,
@@ -36,11 +40,10 @@ async function getProduct(id: number) {
 }
 
 const getCachedProduct = nextCache(getProduct, ["product-detail"], {
-  tags: ["product-detail", "xxxx"],
+  revalidate: 30,
 });
 
 async function getProductTitle(id: number) {
-  console.log("title");
   const product = await db.product.findUnique({
     where: { id },
     select: {
@@ -51,7 +54,7 @@ async function getProductTitle(id: number) {
 }
 
 const getCachedProductTitle = nextCache(getProductTitle, ["product-title"], {
-  tags: ["product-title", "xxx"],
+  revalidate: 30,
 });
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -82,62 +85,63 @@ export default async function ProductDetail({
   }
 
   const isOwner = await getIsOwner(product.userId);
-  const revalidate = async () => {
-    "use server";
-    revalidateTag("xxxx");
-    revalidateTag("product-title");
-  };
+
   return (
     <div className="pb-28">
       <div className="relative aspect-square">
         <Image
-          className="object-cover"
+          className="object-cover rounded-lg"
           fill
           src={product.photo}
           alt={product.title}
         />
       </div>
-      <div className="p-5 flex items-center gap-3 border-b border-neutral-700">
-        <div className="size-10 rounded-full">
-          {product.user.avatar !== null ? (
-            <Image
-              src={product.user.avatar}
-              width={40}
-              height={40}
-              alt={product.user.username}
-              className="rounded-full"
-            />
-          ) : (
-            <UserIcon />
-          )}
+      <div className="p-5 flex flex-row justify-between border-b border-neutral-700">
+        <div className="flex flex-row items-center gap-3">
+          <div>
+            {product.user.avatar !== null ? (
+              <Image
+                src={product.user.avatar}
+                width={40}
+                height={40}
+                alt={product.user.username}
+                className="rounded-full"
+              />
+            ) : (
+              <UserIcon className="size-10 rounded-full" />
+            )}
+          </div>
+          <div>
+            <h3>{product.user.username}</h3>
+          </div>
         </div>
-        <div>
-          <h3>{product.user.username}</h3>
-        </div>
+        {isOwner ? (
+          <div className="flex flex-row gap-4">
+            <Link
+              href={""}
+              className="bg-lime-600 px-10 py-2.5 rounded-md text-white font-semibold hover:bg-opacity-90"
+            >
+              <WrenchScrewdriverIcon className="size-5" />
+            </Link>
+            <ProductDeleteBtn id={id} />
+          </div>
+        ) : null}
       </div>
+
       <div className="p-5">
-        <h1 className="text-2xl font-semibold">{product.title}</h1>
+        <h1 className="text-2xl font-semibold pb-3">{product.title}</h1>
         <p>{product.description}</p>
       </div>
-      <form action={revalidate}>
-        <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold">
-          revalidate
-        </button>
-      </form>
-      <div className="fixed w-full bottom-0 max-w-screen-sm p-5 pb-10 bg-neutral-800 flex justify-between items-center">
+
+      <div className="fixed w-full bottom-0 max-w-screen-sm p-5 bg-neutral-800 flex justify-between items-center rounded-lg">
         <span className="font-semibold text-xl">
           {formatToWon(product.price)} 원
         </span>
-        {isOwner ? (
-          <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold">
-            Delete product
-          </button>
-        ) : null}
         <Link
-          className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold"
+          className="bg-orange-500 px-16 py-2.5 rounded-md text-white font-semibold hover:bg-opacity-90"
           href={``}
         >
-          Chatting
+          <ChatBubbleOvalLeftEllipsisIcon className="size-5" />
         </Link>
       </div>
     </div>

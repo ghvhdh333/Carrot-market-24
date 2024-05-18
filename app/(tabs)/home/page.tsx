@@ -20,7 +20,6 @@ const getCacheProducts = nextCache(getInitialProducts, ["home-products"], {
 
 async function getInitialProducts() {
   // take에 적힌 수 만큼 상품 리스트 가져옴
-  console.log("aaa");
   const products = await db.product.findMany({
     select: {
       title: true,

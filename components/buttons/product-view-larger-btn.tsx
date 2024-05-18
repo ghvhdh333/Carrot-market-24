@@ -5,7 +5,7 @@ const onClickRefreshButton = () => {
   window.location.reload();
 };
 
-export default function RefreshBtn() {
+export default function ProductViewLargerBtn() {
   return (
     <button
       type="button"
