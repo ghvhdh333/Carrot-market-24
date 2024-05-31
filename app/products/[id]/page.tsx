@@ -1,13 +1,11 @@
+import EditBtn from "@/components/buttons/edit-btn";
 import ProductDeleteBtn from "@/components/buttons/product-delete-btn";
 import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { formatToWon } from "@/lib/utils";
-import {
-  ChatBubbleOvalLeftEllipsisIcon,
-  WrenchScrewdriverIcon,
-} from "@heroicons/react/24/outline";
+import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
-import { unstable_cache as nextCache, revalidateTag } from "next/cache";
+import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -117,12 +115,7 @@ export default async function ProductDetail({
         </div>
         {isOwner ? (
           <div className="flex flex-row gap-4">
-            <Link
-              href={""}
-              className="bg-lime-600 px-10 py-2.5 rounded-md text-white font-semibold hover:bg-opacity-90"
-            >
-              <WrenchScrewdriverIcon className="size-5" />
-            </Link>
+            <EditBtn link="/edit/products" />
             <ProductDeleteBtn id={id} />
           </div>
         ) : null}
