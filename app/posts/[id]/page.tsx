@@ -2,18 +2,13 @@ import db from "@/lib/db";
 
 import getSession from "@/lib/session/getSession";
 import { formatToTimeAgo } from "@/lib/utils";
-import {
-  EyeIcon,
-  HandThumbUpIcon as SolidHandThumbUpIcon,
-  UserIcon,
-} from "@heroicons/react/24/solid";
-import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline";
-import { unstable_cache as nextCache, revalidateTag } from "next/cache";
+import { EyeIcon, UserIcon } from "@heroicons/react/24/solid";
+import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { dislikePost, likePost } from "./action";
 import LikeButton from "@/components/buttons/like-btn";
 
+// post 정보를 가져온다.
 async function getPost(id: number) {
   try {
     const post = await db.post.update({
@@ -50,6 +45,7 @@ const getCachedPost = nextCache(getPost, ["post-detail"], {
   revalidate: 60,
 });
 
+// Db에서 해당 post에 likeCount와 특정유저가 like를 했는지를 가져온다.
 async function getLikeStatus(postId: number, userId: number) {
   const isLiked = await db.like.findUnique({
     where: {
@@ -70,6 +66,8 @@ async function getLikeStatus(postId: number, userId: number) {
   };
 }
 
+// postId, userId를 입력해주기 위해, function으로 한번 더 감쌌다.
+// tag : [like-status]처럼하면 모든 post의 like 상태가 업데이트 되므로, 변경하려는 post만 변경되도록 postId를 입력해준다.
 function getCachedLikeStatus(postId: number, userId: number) {
   const cachedOperation = nextCache(getLikeStatus, ["product-like-status"], {
     tags: [`like-status-${postId}`],
@@ -83,18 +81,23 @@ export default async function PostDetail({
   params: { id: string };
 }) {
   const id = Number(params.id);
+  // Number 타입으로 변경된 id가 숫자가 아닌 경우 -> 에러 페이지로 이동
   if (isNaN(id)) {
     return notFound();
   }
+  // id가 숫자이지만, session을 가져올 수 없는 경우(= 로그인하지 않은 경우) -> 에러 페이지로 이동
   const session = await getSession();
   if (!session.id) {
     return notFound();
   }
+  // id가 숫자이고, session도 가져올 수 있으나, post list를 가져올 수 없는 경우 -> 에러 페이지로 이동
   const post = await getCachedPost(id);
   if (!post) {
     return notFound();
   }
+  // getCachedLikeStatus에 postId, userId를 입력하여 likeCount, isLiked를 가져온다.
   const { likeCount, isLiked } = await getCachedLikeStatus(id, session.id!);
+
   return (
     <div className="p-5 text-white">
       <div className="flex items-center gap-2 mb-2">

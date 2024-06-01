@@ -5,6 +5,7 @@ import getSession from "@/lib/session/getSession";
 
 import { revalidateTag } from "next/cache";
 
+// 좋아요
 export async function likePost(postId: number) {
   const session = await getSession();
   try {
@@ -18,6 +19,7 @@ export async function likePost(postId: number) {
   } catch (e) {}
 }
 
+// 좋아요 취소
 export async function dislikePost(postId: number) {
   try {
     const session = await getSession();

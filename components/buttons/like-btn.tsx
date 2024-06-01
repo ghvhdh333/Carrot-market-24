@@ -16,7 +16,8 @@ export default function LikeButton({
   likeCount,
   postId,
 }: LikeButtonProps) {
-  // useOptimistic 실제 서버에서 적용된 데이터를 가져오는 것이 아니라, 바로 적용시켜서 보여주고, 추후에 적용된 상태를 적용시켜 준다. (= 유저는 기다림 없이 바로 상태를 볼 수 있다.)
+  // useOptimistic 실제 서버에서 적용된 데이터를 가져오는 것이 아니라, 바로 적용시켜서 보여주고,
+  // 추후에 적용된 상태를 적용시켜 준다. (= 유저는 기다림 없이 바로 상태를 볼 수 있다.)
   const [state, reducerFn] = useOptimistic(
     { isLiked, likeCount },
     (previousState, payload) => ({
@@ -26,14 +27,20 @@ export default function LikeButton({
         : previousState.likeCount + 1,
     })
   );
+
+  // 좋아요 버튼 누른 경우
   const onClickLikeBtn = async () => {
     reducerFn(undefined);
+
     if (isLiked) {
+      // 좋아요 버튼이 눌려져 있는 상태에서 다시 누른 경우
       await dislikePost(postId);
     } else {
+      // 좋아요 버튼이 눌려져 있지 않은 상태에서 누른 경우
       await likePost(postId);
     }
   };
+
   return (
     <button
       onClick={onClickLikeBtn}
