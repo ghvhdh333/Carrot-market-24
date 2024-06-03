@@ -7,8 +7,7 @@ import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 // 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
 async function getIsOwner(userId: number) {
@@ -17,6 +16,27 @@ async function getIsOwner(userId: number) {
     return session.id === userId;
   }
   return false;
+}
+
+async function getProductTitle(id: number) {
+  const product = await db.product.findUnique({
+    where: { id },
+    select: {
+      title: true,
+    },
+  });
+  return product;
+}
+
+const getCachedProductTitle = nextCache(getProductTitle, ["product-title"], {
+  revalidate: 30,
+});
+
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const product = await getCachedProductTitle(Number(params.id));
+  return {
+    title: product?.title,
+  };
 }
 
 // 상품 정보와 등록한 유저의 정보를 가져온다.
@@ -41,27 +61,6 @@ const getCachedProduct = nextCache(getProduct, ["product-detail"], {
   revalidate: 30,
 });
 
-async function getProductTitle(id: number) {
-  const product = await db.product.findUnique({
-    where: { id },
-    select: {
-      title: true,
-    },
-  });
-  return product;
-}
-
-const getCachedProductTitle = nextCache(getProductTitle, ["product-title"], {
-  revalidate: 30,
-});
-
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const product = await getCachedProductTitle(Number(params.id));
-  return {
-    title: product?.title,
-  };
-}
-
 export default async function ProductDetail({
   params,
 }: {
@@ -83,6 +82,30 @@ export default async function ProductDetail({
   }
 
   const isOwner = await getIsOwner(product.userId);
+
+  // action.ts 로 옮기기!
+  const createChatRoom = async () => {
+    "use server";
+    const session = await getSession();
+    const room = await db.chatRoom.create({
+      data: {
+        users: {
+          connect: [
+            {
+              id: product.userId,
+            },
+            {
+              id: session.id,
+            },
+          ],
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+    redirect(`/chats/${room.id}`);
+  };
 
   return (
     <div className="pb-28">
@@ -130,12 +153,11 @@ export default async function ProductDetail({
         <span className="font-semibold text-xl">
           {formatToWon(product.price)} 원
         </span>
-        <Link
-          className="bg-orange-500 px-16 py-2.5 rounded-md text-white font-semibold hover:bg-opacity-90"
-          href={``}
-        >
-          <ChatBubbleOvalLeftEllipsisIcon className="size-5" />
-        </Link>
+        <form action={createChatRoom}>
+          <button className="bg-orange-500 px-16 py-2.5 rounded-md text-white font-semibold hover:bg-opacity-90">
+            <ChatBubbleOvalLeftEllipsisIcon className="size-5" />
+          </button>
+        </form>
       </div>
     </div>
   );
