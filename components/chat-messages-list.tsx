@@ -2,7 +2,7 @@
 
 import { InitialChatMessages } from "@/app/chats/[id]/page";
 import { formatToTimeAgo } from "@/lib/utils";
-import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
+import { ArrowUpCircleIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
@@ -37,14 +37,21 @@ export default function ChatMessagesList({
           }`}
         >
           {message.userId === userId ? null : (
-            <Image
-              src={message.user.avatar!}
-              alt={message.user.username}
-              width={50}
-              height={50}
-              className="size-8 rounded-full"
-            />
+            <div>
+              {message.user.avatar !== null ? (
+                <Image
+                  src={message.user.avatar!}
+                  alt={message.user.username}
+                  width={50}
+                  height={50}
+                  className="size-8 rounded-full"
+                />
+              ) : (
+                <UserIcon className="size-10 rounded-full" />
+              )}
+            </div>
           )}
+
           <div
             className={`flex flex-col gap-1 ${
               message.userId === userId ? "items-end" : ""
@@ -52,7 +59,7 @@ export default function ChatMessagesList({
           >
             <span
               className={`${
-                message.userId === userId ? "bg-neutral-500" : "bg-orange-500"
+                message.userId === userId ? "bg-orange-500" : "bg-neutral-500"
               } p-2.5 rounded-md`}
             >
               {message.payload}
