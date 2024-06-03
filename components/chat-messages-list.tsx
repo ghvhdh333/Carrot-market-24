@@ -1,16 +1,12 @@
 "use client";
 
 import { InitialChatMessages } from "@/app/chats/[id]/page";
+import { supabaseClient } from "@/lib/supabaseClient";
 import { formatToTimeAgo } from "@/lib/utils";
 import { ArrowUpCircleIcon, UserIcon } from "@heroicons/react/24/solid";
-import { RealtimeChannel, createClient } from "@supabase/supabase-js";
+import { RealtimeChannel } from "@supabase/supabase-js";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-
-const SUPABASE_PUBLIC_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBneW53bnZzd21ha3NqdXBxeXR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc0MTMxMjQsImV4cCI6MjAzMjk4OTEyNH0.HVOKzvS1xS_MrT-z9IGNejLIZdZyPYVu9xqCUJo-0es";
-
-const SUPABASE_URL = "https://pgynwnvswmaksjupqytz.supabase.co";
 
 interface ChatMessageListProps {
   initialMessages: InitialChatMessages;
@@ -70,8 +66,7 @@ export default function ChatMessagesList({
   };
 
   useEffect(() => {
-    const client = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY);
-    channel.current = client.channel(`room-${chatRoomId}`);
+    channel.current = supabaseClient.channel(`room-${chatRoomId}`);
     channel.current
       .on("broadcast", { event: "message" }, (payload) => {
         setMessages((prevMsgs) => [...prevMsgs, payload.payload]);
