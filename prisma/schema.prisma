@@ -2,9 +2,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// 배포 전
+// datasource db {
+//   provider = "sqlite" // 어떤 종류의 db를 사용할 것인지
+//   url      = env("DATABASE_URL") // db 위치
+// }
+
 datasource db {
-  provider = "sqlite" // 어떤 종류의 db를 사용할 것인지
-  url      = env("DATABASE_URL") // db 위치
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
