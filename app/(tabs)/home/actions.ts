@@ -11,8 +11,8 @@ export async function getMoreProducts(page: number) {
       photo: true,
       id: true,
     },
-    skip: page * 1, // 만약 25개씩 보여준다면 page * 25로 하면됌
-    take: 1, // 만약 25개씩 보여준다면 25로 하면됌
+    skip: page * 10, // 만약 25개씩 보여준다면 page * 25로 하면됌
+    take: 10, // 만약 25개씩 보여준다면 25로 하면됌
     orderBy: {
       created_at: "desc",
     },
