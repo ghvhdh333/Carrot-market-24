@@ -23,7 +23,6 @@ export default function ProductSimpleInfo({
         <Image
           fill
           priority
-          sizes="112px"
           src={`${photo}/avatar`}
           alt={title}
           className="object-cover"

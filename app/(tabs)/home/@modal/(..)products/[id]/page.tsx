@@ -71,8 +71,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
               <Image
                 className="object-cover rounded-md"
                 fill
-                sizes="426.66px"
-                src={product.photo}
+                src={`${product.photo}/modal`}
                 alt={product.title}
               />
             </div>
