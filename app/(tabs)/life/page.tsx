@@ -39,7 +39,7 @@ export default async function Life() {
   const posts = await getCachePosts();
   return (
     <div>
-      <div className="p-5 flex flex-col">
+      <div className="p-5 flex flex-col mb-20">
         {posts.map((post) => (
           <Link
             key={post.id}
@@ -66,6 +66,7 @@ export default async function Life() {
               </div>
             </div>
           </Link>
+          // 무한스크롤 할 수 있게 만들기! (product 페이지 처럼)
         ))}
       </div>
       {/* life 업로드 페이지 만들고 링크 변경하기! */}
