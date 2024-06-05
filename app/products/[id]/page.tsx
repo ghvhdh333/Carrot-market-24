@@ -113,7 +113,7 @@ export default async function ProductDetail({
         <Image
           className="object-cover rounded-lg"
           fill
-          src={product.photo}
+          src={`${product.photo}/public`}
           alt={product.title}
         />
       </div>

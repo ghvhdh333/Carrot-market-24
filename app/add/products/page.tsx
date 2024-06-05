@@ -4,7 +4,7 @@ import Button from "@/components/buttons/Button";
 import Input from "@/components/Input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import { uploadProduct } from "./actions";
+import { getUploadUrl, uploadProduct } from "./actions";
 import { useFormState } from "react-dom";
 import {
   DESCRIPTION_MAX_LENGTH,
@@ -17,11 +17,12 @@ import {
 } from "@/lib/constants";
 
 export default function AddProduct() {
-  const [state, action] = useFormState(uploadProduct, null);
   const [isImgSizeOk, setIsImgSizeOk] = useState(true);
   const [preview, setPreview] = useState("");
+  const [photoId, setPhotoId] = useState("");
+  const [uploadUrl, setUploadUrl] = useState("");
 
-  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     // 구조분해로 event.target.files 만 가져온다.
     // files = event.target.files와 같다.
     const {
@@ -36,11 +37,40 @@ export default function AddProduct() {
       setIsImgSizeOk(true);
       const url = URL.createObjectURL(file);
       setPreview(url);
+
+      const { success, result } = await getUploadUrl();
+      if (success) {
+        const { id, uploadURL } = result;
+        setUploadUrl(uploadURL);
+        setPhotoId(id);
+      }
     } else {
       setIsImgSizeOk(false);
       setPreview("");
     }
   };
+
+  const interceptAction = async (_: any, formData: FormData) => {
+    const file = formData.get("photo");
+    if (!file) {
+      return;
+    }
+    const cloudflareForm = new FormData();
+    cloudflareForm.append("file", file);
+    const response = await fetch(uploadUrl, {
+      method: "post",
+      body: cloudflareForm,
+    });
+    console.log(await response.text());
+    if (response.status !== 200) {
+      return;
+    }
+    const photoUrl = `https://imagedelivery.net/U3ZvfSHMWBX1DnDWzDMR4A/${photoId}`;
+    formData.set("photo", photoUrl);
+    return uploadProduct(_, formData);
+  };
+
+  const [state, action] = useFormState(interceptAction, null);
 
   return (
     <div>
