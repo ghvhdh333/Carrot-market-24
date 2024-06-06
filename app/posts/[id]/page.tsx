@@ -83,16 +83,19 @@ export default async function PostDetail({
   const id = Number(params.id);
   // Number 타입으로 변경된 id가 숫자가 아닌 경우 -> 에러 페이지로 이동
   if (isNaN(id)) {
+    console.log("aa");
     return notFound();
   }
   // id가 숫자이지만, session을 가져올 수 없는 경우(= 로그인하지 않은 경우) -> 에러 페이지로 이동
   const session = await getSession();
   if (!session.id) {
+    console.log("bb");
     return notFound();
   }
   // id가 숫자이고, session도 가져올 수 있으나, post list를 가져올 수 없는 경우 -> 에러 페이지로 이동
   const post = await getCachedPost(id);
   if (!post) {
+    console.log("cc");
     return notFound();
   }
   // getCachedLikeStatus에 postId, userId를 입력하여 likeCount, isLiked를 가져온다.
