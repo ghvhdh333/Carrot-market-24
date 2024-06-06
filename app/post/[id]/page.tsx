@@ -121,8 +121,8 @@ export default async function PostDetail({
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-4 mb-5">
-        <h2 className="text-lg font-semibold">{post.title}</h2>
+      <div className="flex flex-col gap-3 mt-2 mb-5">
+        <h2 className="text-2xl font-semibold">{post.title}</h2>
         <p>{post.description}</p>
       </div>
       <div className="flex flex-col gap-5 items-start">
