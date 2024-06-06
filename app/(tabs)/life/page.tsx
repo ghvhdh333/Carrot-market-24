@@ -43,7 +43,7 @@ export default async function Life() {
         {postList.map((post) => (
           <Link
             key={post.id}
-            href={`/posts/${post.id}`}
+            href={`/post/${post.id}`}
             className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 flex flex-col gap-2 last:pb-0 last:border-b-0"
           >
             <h2 className="text-white text-lg font-semibold">{post.title}</h2>
