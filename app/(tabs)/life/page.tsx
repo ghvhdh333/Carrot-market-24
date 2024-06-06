@@ -49,11 +49,11 @@ export default async function Life() {
           <Link
             key={post.id}
             href={`/post/${post.id}`}
-            className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 flex flex-col gap-2 last:pb-0 last:border-b-0"
+            className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 flex flex-col gap-2 last:pb-0 last:border-b-0 hover:bg-neutral-800 hover:rounded-lg"
           >
             <h2 className="text-white text-lg font-semibold">{post.title}</h2>
-            {post.description!.length >= 20 ? (
-              <p>{post.description!.slice(0, 20)}...</p>
+            {post.description!.length >= 30 ? (
+              <p>{post.description!.slice(0, 30)} ...</p>
             ) : (
               <p>{post.description}</p>
             )}
