@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 import LikeButton from "@/components/buttons/like-btn";
 
 // post 정보를 가져온다.
-async function getPost(id: number) {
+async function getPostDetail(id: number) {
   try {
     const post = await db.post.update({
       where: {
@@ -40,7 +40,7 @@ async function getPost(id: number) {
   }
 }
 
-const getCachedPost = nextCache(getPost, ["post-detail"], {
+const getCachedPost = nextCache(getPostDetail, ["post-detail"], {
   tags: ["post-detail"],
   revalidate: 60,
 });

@@ -8,12 +8,12 @@ import Link from "next/link";
 import { unstable_cache as nextCache } from "next/cache";
 import AddBtn from "@/components/buttons/add-btn";
 
-const getCachePosts = nextCache(getPosts, ["life-posts"], {
-  revalidate: 30,
+const getCachePostList = nextCache(getPostList, ["life-posts"], {
+  revalidate: 10,
 });
 
-async function getPosts() {
-  const posts = await db.post.findMany({
+async function getPostList() {
+  const postList = await db.post.findMany({
     select: {
       id: true,
       title: true,
@@ -28,7 +28,7 @@ async function getPosts() {
       },
     },
   });
-  return posts;
+  return postList;
 }
 
 export const metadata = {
@@ -36,11 +36,11 @@ export const metadata = {
 };
 
 export default async function Life() {
-  const posts = await getCachePosts();
+  const postList = await getCachePostList();
   return (
     <div>
       <div className="p-5 flex flex-col mb-20">
-        {posts.map((post) => (
+        {postList.map((post) => (
           <Link
             key={post.id}
             href={`/posts/${post.id}`}
