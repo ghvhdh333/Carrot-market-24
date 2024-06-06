@@ -8,11 +8,16 @@ import Link from "next/link";
 import { unstable_cache as nextCache } from "next/cache";
 import AddBtn from "@/components/buttons/add-btn";
 
-const getCachePostList = nextCache(getPostList, ["life-posts"], {
+export const metadata = {
+  title: "Life",
+};
+
+const getCachePostList = nextCache(getInitialPostList, ["life-posts"], {
   revalidate: 10,
 });
 
-async function getPostList() {
+// Life 페이지에서 처음 가져오는 postList
+async function getInitialPostList() {
   const postList = await db.post.findMany({
     select: {
       id: true,
@@ -27,13 +32,13 @@ async function getPostList() {
         },
       },
     },
+    take: 10, // take에 적힌 수 만큼 상품 리스트 가져옴
+    orderBy: {
+      created_at: "desc", // 최신 순으로 정렬함
+    },
   });
   return postList;
 }
-
-export const metadata = {
-  title: "Life",
-};
 
 export default async function Life() {
   const postList = await getCachePostList();
@@ -47,9 +52,13 @@ export default async function Life() {
             className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 flex flex-col gap-2 last:pb-0 last:border-b-0"
           >
             <h2 className="text-white text-lg font-semibold">{post.title}</h2>
-            <p>{post.description}</p>
+            {post.description!.length >= 20 ? (
+              <p>{post.description!.slice(0, 20)}...</p>
+            ) : (
+              <p>{post.description}</p>
+            )}
             <div className="flex items-center justify-between text-sm">
-              <div className="flex gap-4 items-center">
+              <div className="flex gap-2 items-center">
                 <span>{formatToTimeAgo(post.created_at.toString())}</span>
                 <span>·</span>
                 <span>조회 {post.views}</span>

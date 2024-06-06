@@ -19,7 +19,7 @@ const getCacheProducts = nextCache(getInitialProducts, ["home-products"], {
 // export const revalidate = 60;
 
 async function getInitialProducts() {
-  // take에 적힌 수 만큼 상품 리스트 가져옴
+  // 처음으로 product 페이지 띄울 때
   const products = await db.product.findMany({
     select: {
       title: true,
@@ -28,7 +28,7 @@ async function getInitialProducts() {
       photo: true,
       id: true,
     },
-    take: 10,
+    take: 10, // take에 적힌 수 만큼 상품 리스트 가져옴
     orderBy: {
       created_at: "desc", // 최신 순으로 정렬함
     },
