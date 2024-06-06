@@ -69,8 +69,7 @@ export default async function Life() {
           // 무한스크롤 할 수 있게 만들기! (product 페이지 처럼)
         ))}
       </div>
-      {/* life 업로드 페이지 만들고 링크 변경하기! */}
-      <AddBtn link={"/add/products"} />
+      <AddBtn link={"/add/post"} />
     </div>
   );
 }
