@@ -46,9 +46,11 @@ export default async function Life() {
     <div>
       <div className="p-5 flex flex-col mb-20">
         {postList.map((post) => (
-          <div className="py-2 border-b border-neutral-500 last:pb-0 last:border-b-0">
+          <div
+            key={post.id}
+            className="py-2 border-b border-neutral-500 last:pb-0 last:border-b-0"
+          >
             <Link
-              key={post.id}
               href={`/post/${post.id}`}
               className="py-3 text-neutral-400 flex flex-col gap-2 hover:bg-neutral-800 hover:rounded-lg"
             >
