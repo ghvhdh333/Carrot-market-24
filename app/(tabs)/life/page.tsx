@@ -1,12 +1,8 @@
 import db from "@/lib/db";
-import { formatToTimeAgo } from "@/lib/utils";
-import {
-  ChatBubbleBottomCenterTextIcon,
-  HandThumbUpIcon,
-} from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { unstable_cache as nextCache } from "next/cache";
 import AddBtn from "@/components/buttons/add-btn";
+import PostList from "@/components/life-page/post-list";
+import { Prisma } from "@prisma/client";
 
 export const metadata = {
   title: "Life",
@@ -40,48 +36,16 @@ async function getInitialPostList() {
   return postList;
 }
 
+// getInitialPostList의 타입 입력 (interface로 해도 됌)
+export type InitialPostList = Prisma.PromiseReturnType<
+  typeof getInitialPostList
+>;
+
 export default async function Life() {
-  const postList = await getCachePostList();
+  const initialPostList = await getCachePostList();
   return (
     <div>
-      <div className="p-5 flex flex-col mb-20">
-        {postList.map((post) => (
-          <div
-            key={post.id}
-            className="py-2 border-b border-neutral-500 last:pb-0 last:border-b-0"
-          >
-            <Link
-              href={`/post/${post.id}`}
-              className="py-3 text-neutral-400 flex flex-col gap-2 hover:bg-neutral-800 hover:rounded-lg"
-            >
-              <h2 className="text-white text-lg font-semibold">{post.title}</h2>
-              {post.description!.length >= 30 ? (
-                <p>{post.description!.slice(0, 30)} ...</p>
-              ) : (
-                <p>{post.description}</p>
-              )}
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex gap-2 items-center">
-                  <span>{formatToTimeAgo(post.created_at.toString())}</span>
-                  <span>·</span>
-                  <span>조회 {post.views}</span>
-                </div>
-                <div className="flex gap-4 items-center *:flex *:gap-1 *:items-center">
-                  <span>
-                    <HandThumbUpIcon className="size-4" />
-                    {post._count.likes}
-                  </span>
-                  <span>
-                    <ChatBubbleBottomCenterTextIcon className="size-4" />
-                    {post._count.comments}
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </div>
-          // 무한스크롤 할 수 있게 만들기! (product 페이지 처럼)
-        ))}
-      </div>
+      <PostList initialPostList={initialPostList} />
       <AddBtn link={"/add/post"} />
     </div>
   );

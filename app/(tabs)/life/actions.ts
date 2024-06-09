@@ -2,11 +2,7 @@
 
 import db from "@/lib/db";
 
-export const metadata = {
-  title: "Life",
-};
-
-// 추가로 데이터를 더 가져올 때 (아직 적용 안됌)
+// 추가로 데이터를 더 가져올 때
 export async function getMorePostList(page: number) {
   const postList = await db.post.findMany({
     select: {
