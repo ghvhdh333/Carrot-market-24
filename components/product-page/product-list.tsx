@@ -1,16 +1,16 @@
 "use client";
 
-import { InitialProducts } from "@/app/(tabs)/home/page";
+import { InitialProductList } from "@/app/(tabs)/home/page";
 import ProductSimpleInfo from "./product-simple-info";
 import { useEffect, useRef, useState } from "react";
-import { getMoreProducts } from "@/app/(tabs)/home/actions";
+import { getMoreProductList } from "@/app/(tabs)/home/actions";
 
 interface ProductListProps {
-  initialProducts: InitialProducts;
+  initialProductList: InitialProductList;
 }
 
-export default function ProductList({ initialProducts }: ProductListProps) {
-  const [products, setProducts] = useState(initialProducts);
+export default function ProductList({ initialProductList }: ProductListProps) {
+  const [productList, setProductList] = useState(initialProductList);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
@@ -29,10 +29,10 @@ export default function ProductList({ initialProducts }: ProductListProps) {
           observer.unobserve(trigger.current);
           setIsLoading(true);
           // 새로운 상품 데이터를 가져온다.
-          const newProducts = await getMoreProducts(page + 1);
+          const newProductList = await getMoreProductList(page + 1);
           // 마지막 상품 데이터가 아니라면 (= 더 가져올 상품 데이터가 있다면), 데이터를 추가시킨다.
-          if (newProducts.length !== 0) {
-            setProducts([...products, ...newProducts]);
+          if (newProductList.length !== 0) {
+            setProductList([...productList, ...newProductList]);
             // page의 값이 변경되므로, useEffect의 dependency로 인해 useEffect가 다시 실행된다.
             // 그로 인해 다시 해당 트리거를 관찰(observe)한다.
             setPage(page + 1);
@@ -61,7 +61,7 @@ export default function ProductList({ initialProducts }: ProductListProps) {
 
   return (
     <div className="p-5 flex flex-col gap-5 mb-20">
-      {products.map((product) => (
+      {productList.map((product) => (
         <ProductSimpleInfo key={product.id} {...product} />
       ))}
       {!isLastPage ? (
