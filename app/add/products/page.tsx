@@ -38,6 +38,7 @@ export default function AddProduct() {
       const url = URL.createObjectURL(file);
       setPreview(url);
 
+      // cloudflare에서 upload URL를 가져온다.
       const { success, result } = await getUploadUrl();
       if (success) {
         const { id, uploadURL } = result;

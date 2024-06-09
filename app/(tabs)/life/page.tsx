@@ -46,35 +46,37 @@ export default async function Life() {
     <div>
       <div className="p-5 flex flex-col mb-20">
         {postList.map((post) => (
-          <Link
-            key={post.id}
-            href={`/post/${post.id}`}
-            className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 flex flex-col gap-2 last:pb-0 last:border-b-0 hover:bg-neutral-800 hover:rounded-lg"
-          >
-            <h2 className="text-white text-lg font-semibold">{post.title}</h2>
-            {post.description!.length >= 30 ? (
-              <p>{post.description!.slice(0, 30)} ...</p>
-            ) : (
-              <p>{post.description}</p>
-            )}
-            <div className="flex items-center justify-between text-sm">
-              <div className="flex gap-2 items-center">
-                <span>{formatToTimeAgo(post.created_at.toString())}</span>
-                <span>·</span>
-                <span>조회 {post.views}</span>
+          <div className="py-2 border-b border-neutral-500 last:pb-0 last:border-b-0">
+            <Link
+              key={post.id}
+              href={`/post/${post.id}`}
+              className="py-3 text-neutral-400 flex flex-col gap-2 hover:bg-neutral-800 hover:rounded-lg"
+            >
+              <h2 className="text-white text-lg font-semibold">{post.title}</h2>
+              {post.description!.length >= 30 ? (
+                <p>{post.description!.slice(0, 30)} ...</p>
+              ) : (
+                <p>{post.description}</p>
+              )}
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex gap-2 items-center">
+                  <span>{formatToTimeAgo(post.created_at.toString())}</span>
+                  <span>·</span>
+                  <span>조회 {post.views}</span>
+                </div>
+                <div className="flex gap-4 items-center *:flex *:gap-1 *:items-center">
+                  <span>
+                    <HandThumbUpIcon className="size-4" />
+                    {post._count.likes}
+                  </span>
+                  <span>
+                    <ChatBubbleBottomCenterTextIcon className="size-4" />
+                    {post._count.comments}
+                  </span>
+                </div>
               </div>
-              <div className="flex gap-4 items-center *:flex *:gap-1 *:items-center">
-                <span>
-                  <HandThumbUpIcon className="size-4" />
-                  {post._count.likes}
-                </span>
-                <span>
-                  <ChatBubbleBottomCenterTextIcon className="size-4" />
-                  {post._count.comments}
-                </span>
-              </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
           // 무한스크롤 할 수 있게 만들기! (product 페이지 처럼)
         ))}
       </div>
