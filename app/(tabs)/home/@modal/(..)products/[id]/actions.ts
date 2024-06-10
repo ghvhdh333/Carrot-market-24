@@ -18,13 +18,12 @@ export async function onClickDeleteProduct(id: number) {
     "https://imagedelivery.net/U3ZvfSHMWBX1DnDWzDMR4A/"
   )[1];
 
-  console.log("photoId : ", photoId);
   await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ID}/images/v1/${photoId}`,
+    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1/${photoId}`,
     {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
+        Authorization: `Bearer ${process.env.CLOUDFLARE_API}`,
         "Content-Type": "application/json",
       },
     }
