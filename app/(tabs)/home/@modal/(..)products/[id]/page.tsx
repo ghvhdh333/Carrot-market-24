@@ -10,20 +10,10 @@
 import ModalCloseBtn from "@/components/buttons/modal-close-btn";
 import ProductViewLargerBtn from "@/components/buttons/product-view-larger-btn";
 import db from "@/lib/db";
-import getSession from "@/lib/session/getSession";
 import { formatToWon } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-
-// 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
-async function getIsOwner(userId: number) {
-  const session = await getSession();
-  if (session.id) {
-    return session.id === userId;
-  }
-  return false;
-}
 
 // 상품 정보와 등록한 유저의 정보를 가져온다.
 async function getProduct(id: number) {
@@ -58,8 +48,6 @@ export default async function Modal({ params }: { params: { id: string } }) {
   if (!product) {
     return notFound();
   }
-
-  const isOwner = await getIsOwner(product.userId);
 
   return (
     <div className="absolute w-full h-full z-50 flex flex-row items-center justify-center bg-opacity-60 left-0 top-0 bg-black">

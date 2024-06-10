@@ -10,8 +10,9 @@ export default function ModalCloseBtn() {
   };
   return (
     <button
+      type="button"
       onClick={onCloseClick}
-      className="absolute right-5 top-5 text-neutral-200"
+      className="absolute right-5 top-5 text-neutral-200 z-[51]"
     >
       <XMarkIcon className="size-10" />
     </button>

@@ -22,13 +22,14 @@ export default function ProductSimpleInfo({
       href={`/products/${id}`}
       className="flex gap-5 hover:bg-neutral-800 rounded-lg"
     >
-      <div className="relative size-28 rounded-md overflow-hidden">
+      <div className="relative rounded-md overflow-hidden">
         <Image
-          fill
+          className="object-cover"
+          width={112}
+          height={112}
           priority
           src={`${photo}/avatar`}
           alt={title}
-          className="object-cover"
         />
       </div>
       <div className="flex flex-col justify-between py-2">

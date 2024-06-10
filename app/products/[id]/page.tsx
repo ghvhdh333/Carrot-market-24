@@ -29,7 +29,7 @@ async function getProductTitle(id: number) {
 }
 
 const getCachedProductTitle = nextCache(getProductTitle, ["product-title"], {
-  revalidate: 30,
+  revalidate: 10,
 });
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -113,6 +113,7 @@ export default async function ProductDetail({
         <Image
           className="object-cover rounded-lg"
           fill
+          priority
           src={`${product.photo}/public`}
           alt={product.title}
         />
