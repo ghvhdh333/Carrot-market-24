@@ -7,6 +7,17 @@ import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import LikeButton from "@/components/buttons/like-btn";
+import EditBtn from "@/components/buttons/edit-btn";
+import PostDeleteBtn from "@/components/buttons/post-delete-btn";
+
+// 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
+async function getIsOwner(userId: number) {
+  const session = await getSession();
+  if (session.id) {
+    return session.id === userId;
+  }
+  return false;
+}
 
 // post 정보를 가져온다.
 async function getPostDetail(id: number) {
@@ -42,7 +53,6 @@ async function getPostDetail(id: number) {
 
 const getCachedPost = nextCache(getPostDetail, ["post-detail"], {
   tags: ["post-detail"],
-  revalidate: 60,
 });
 
 // Db에서 해당 post에 likeCount와 특정유저가 like를 했는지를 가져온다.
@@ -95,31 +105,43 @@ export default async function PostDetail({
   if (!post) {
     return notFound();
   }
+
+  const isOwner = await getIsOwner(post.userId);
+
   // getCachedLikeStatus에 postId, userId를 입력하여 likeCount, isLiked를 가져온다.
   const { likeCount, isLiked } = await getCachedLikeStatus(id, session.id!);
 
   return (
     <div className="p-5 text-white">
-      <div className="flex items-center gap-2 mb-2">
-        <div>
-          {post.user.avatar !== null ? (
-            <Image
-              width={28}
-              height={28}
-              className="size-7 rounded-full"
-              src={post.user.avatar!}
-              alt={post.user.username}
-            />
-          ) : (
-            <UserIcon className="size-7 rounded-full" />
-          )}
-        </div>
-        <div>
-          <span className="text-sm font-semibold">{post.user.username}</span>
-          <div className="text-xs">
-            <span>{formatToTimeAgo(post.created_at.toString())}</span>
+      <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row items-center gap-2 mb-2">
+          <div>
+            {post.user.avatar !== null ? (
+              <Image
+                width={28}
+                height={28}
+                className="size-7 rounded-full"
+                src={post.user.avatar!}
+                alt={post.user.username}
+              />
+            ) : (
+              <UserIcon className="size-7 rounded-full" />
+            )}
+          </div>
+          <div>
+            <span className="text-sm font-semibold">{post.user.username}</span>
+            <div className="text-xs">
+              <span>{formatToTimeAgo(post.created_at.toString())}</span>
+            </div>
           </div>
         </div>
+
+        {isOwner ? (
+          <div className="flex flex-row gap-4">
+            <EditBtn link="/edit/products" />
+            <PostDeleteBtn id={id} />
+          </div>
+        ) : null}
       </div>
       <div className="flex flex-col gap-3 mt-3 mb-5">
         <h2 className="text-2xl font-semibold">{post.title}</h2>

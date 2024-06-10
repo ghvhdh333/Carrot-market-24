@@ -1,21 +1,21 @@
 "use client";
 
-import { onClickDeleteProduct } from "@/app/products/[id]/actions";
+import { onClickDeletePost } from "@/app/post/[id]/action";
 import { ArrowPathIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-interface ProductDeleteBtnProps {
+interface PostDeleteBtnProps {
   id: number;
 }
 
-export default function ProductDeleteBtn({ id }: ProductDeleteBtnProps) {
+export default function PostDeleteBtn({ id }: PostDeleteBtnProps) {
   const [isLoading, setLoading] = useState(false);
 
   const onDelete = async () => {
-    const confirm = window.confirm("상품을 삭제하시겠습니까?");
+    const confirm = window.confirm("게시물을 삭제하시겠습니까?");
     if (!confirm) return;
     setLoading(true);
-    await onClickDeleteProduct(id);
+    await onClickDeletePost(id);
     setLoading(false);
   };
 

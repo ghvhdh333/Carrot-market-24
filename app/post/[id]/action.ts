@@ -34,3 +34,13 @@ export async function dislikePost(postId: number) {
     revalidateTag(`like-status-${postId}`);
   } catch (e) {}
 }
+
+// delete 버튼
+// 작성자인 경우에만 들어올 수 있으므로 따로 확인을 하지 않는다.
+export async function onClickDeletePost(id: number) {
+  await db.post.delete({
+    where: {
+      id,
+    },
+  });
+}

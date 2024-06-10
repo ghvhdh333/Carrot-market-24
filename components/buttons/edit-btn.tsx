@@ -16,7 +16,7 @@ export default function EditBtn({ link }: EditBtnProps) {
 
     <Link
       href={link}
-      className="bg-lime-600 px-10 py-2.5 rounded-md text-white font-semibold hover:bg-opacity-90"
+      className="bg-lime-600 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-opacity-90"
     >
       <WrenchScrewdriverIcon className="size-5" />
     </Link>
