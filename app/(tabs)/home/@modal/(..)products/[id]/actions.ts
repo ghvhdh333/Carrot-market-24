@@ -23,7 +23,7 @@ export async function onClickDeleteProduct(id: number) {
     {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${process.env.CLOUDFLARE_API}`,
+        Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
         "Content-Type": "application/json",
       },
     }
