@@ -139,7 +139,7 @@ export default async function ProductDetail({
         </div>
         {isOwner ? (
           <div className="flex flex-row gap-4">
-            <EditBtn link="/edit/products" />
+            <EditBtn link="/edit/product" />
             <ProductDeleteBtn id={id} />
           </div>
         ) : null}
