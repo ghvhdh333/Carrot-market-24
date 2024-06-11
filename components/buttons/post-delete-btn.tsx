@@ -2,6 +2,7 @@
 
 import { onClickDeletePost } from "@/app/post/[id]/action";
 import { ArrowPathIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface PostDeleteBtnProps {
@@ -10,6 +11,7 @@ interface PostDeleteBtnProps {
 
 export default function PostDeleteBtn({ id }: PostDeleteBtnProps) {
   const [isLoading, setLoading] = useState(false);
+  const router = useRouter();
 
   const onDelete = async () => {
     const confirm = window.confirm("게시물을 삭제하시겠습니까?");
@@ -17,6 +19,7 @@ export default function PostDeleteBtn({ id }: PostDeleteBtnProps) {
     setLoading(true);
     await onClickDeletePost(id);
     setLoading(false);
+    router.push("/life");
   };
 
   return (

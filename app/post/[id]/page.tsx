@@ -138,7 +138,7 @@ export default async function PostDetail({
 
         {isOwner ? (
           <div className="flex flex-row gap-4">
-            <EditBtn link="/edit/post" />
+            <EditBtn link={`/edit/post/${id}`} />
             <PostDeleteBtn id={id} />
           </div>
         ) : null}
