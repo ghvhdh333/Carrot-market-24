@@ -16,9 +16,10 @@ import {
   TITLE_MIN_LENGTH,
 } from "@/lib/constants";
 
-export const metadata = {
-  title: "Edit | Product",
-};
+// metadata는 use client에서 사용하면 안됌 product edit 기능이 구현되면 use server에 넣기!
+// export const metadata = {
+//   title: "Edit | Product",
+// };
 
 export default function EditProduct() {
   const [state, action] = useFormState(uploadProduct, null);
