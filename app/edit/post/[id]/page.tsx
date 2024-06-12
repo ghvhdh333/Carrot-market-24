@@ -4,6 +4,10 @@ import { getPostDetail } from "./actions";
 import PostEditForm from "@/components/life-page/post-edit-form";
 import { unstable_cache as nextCache } from "next/cache";
 
+export const metadata = {
+  title: "Edit | Post",
+};
+
 // 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
 async function getIsOwner(userId: number) {
   const session = await getSession();
@@ -13,9 +17,12 @@ async function getIsOwner(userId: number) {
   return false;
 }
 
-const getCachePostDetail = nextCache(getPostDetail, ["post-detail"], {
-  tags: ["post-detail"],
-});
+function getCachePostDetail(postId: number) {
+  const cachedOperation = nextCache(getPostDetail, [`post-detail-${postId}`], {
+    revalidate: 60,
+  });
+  return cachedOperation(postId);
+}
 
 export default async function EditPost({ params }: { params: { id: string } }) {
   const id = Number(params.id);

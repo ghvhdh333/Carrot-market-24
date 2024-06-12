@@ -10,6 +10,31 @@ import LikeButton from "@/components/buttons/like-btn";
 import EditBtn from "@/components/buttons/edit-btn";
 import PostDeleteBtn from "@/components/buttons/post-delete-btn";
 
+async function getPostTitle(id: number) {
+  const post = await db.post.findUnique({
+    where: { id },
+    select: {
+      title: true,
+    },
+  });
+  return post;
+}
+
+function getCachedPostTitle(postId: number) {
+  const cachedOperation = nextCache(getPostTitle, [`post-title-${postId}`], {
+    revalidate: 60,
+    tags: [`post-title-${postId}`],
+  });
+  return cachedOperation(postId);
+}
+
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const post = await getCachedPostTitle(Number(params.id));
+  return {
+    title: post?.title,
+  };
+}
+
 // 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
 async function getIsOwner(userId: number) {
   const session = await getSession();
@@ -50,11 +75,13 @@ async function getPostDetail(id: number) {
     return null;
   }
 }
-
-const getCachedPost = nextCache(getPostDetail, ["post-detail"], {
-  tags: ["post-detail"],
-});
-
+function getCachedPostDetail(postId: number) {
+  const cachedOperation = nextCache(getPostDetail, [`post-detail-${postId}`], {
+    revalidate: 60,
+    tags: [`post-detail-${postId}`],
+  });
+  return cachedOperation(postId);
+}
 // Db에서 해당 post에 likeCount와 특정유저가 like를 했는지를 가져온다.
 async function getLikeStatus(postId: number, userId: number) {
   const isLiked = await db.like.findUnique({
@@ -79,9 +106,7 @@ async function getLikeStatus(postId: number, userId: number) {
 // postId, userId를 입력해주기 위해, function으로 한번 더 감쌌다.
 // tag : [like-status]처럼하면 모든 post의 like 상태가 업데이트 되므로, 변경하려는 post만 변경되도록 postId를 입력해준다.
 function getCachedLikeStatus(postId: number, userId: number) {
-  const cachedOperation = nextCache(getLikeStatus, ["product-like-status"], {
-    tags: [`like-status-${postId}`],
-  });
+  const cachedOperation = nextCache(getLikeStatus, [`like-status-${postId}`]);
   return cachedOperation(postId, userId);
 }
 
@@ -101,7 +126,7 @@ export default async function PostDetail({
     return notFound();
   }
   // id가 숫자이고, session도 가져올 수 있으나, post list를 가져올 수 없는 경우 -> 에러 페이지로 이동
-  const post = await getCachedPost(id);
+  const post = await getCachedPostDetail(id);
   if (!post) {
     return notFound();
   }

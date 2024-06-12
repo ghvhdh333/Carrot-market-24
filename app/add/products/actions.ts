@@ -26,6 +26,7 @@ import {
   PRICE_MAX,
   PRICE_MAX_ERROR,
 } from "@/lib/constants";
+import { revalidateTag } from "next/cache";
 
 const productSchema = z.object({
   photo: z.string({
@@ -85,6 +86,9 @@ export async function uploadProduct(_: any, formData: FormData) {
           id: true,
         },
       });
+      revalidateTag(`home-product-list`);
+      revalidateTag(`product-detail-${product.id}`);
+      revalidateTag(`product-title-${product.id}`);
       redirect(`/products/${product.id}`);
     }
   }

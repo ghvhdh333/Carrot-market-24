@@ -8,8 +8,9 @@ export const metadata = {
   title: "Life",
 };
 
-const getCachePostList = nextCache(getInitialPostList, ["post-list"], {
-  tags: ["post-list"],
+const getCachePostList = nextCache(getInitialPostList, ["life-post-list"], {
+  tags: ["life-post-list"],
+  revalidate: 60,
 });
 
 // Life 페이지에서 처음 가져오는 postList

@@ -16,6 +16,10 @@ import {
   TITLE_MIN_LENGTH,
 } from "@/lib/constants";
 
+export const metadata = {
+  title: "Edit | Product",
+};
+
 export default function EditProduct() {
   const [state, action] = useFormState(uploadProduct, null);
   const [isImgSizeOk, setIsImgSizeOk] = useState(true);

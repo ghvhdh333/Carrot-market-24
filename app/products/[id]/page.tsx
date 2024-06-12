@@ -3,14 +3,10 @@ import ProductDeleteBtn from "@/components/buttons/product-delete-btn";
 import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { formatToWon } from "@/lib/utils";
-import {
-  ChatBubbleOvalLeftEllipsisIcon,
-  WrenchScrewdriverIcon,
-} from "@heroicons/react/24/outline";
+import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 // 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
@@ -32,9 +28,17 @@ async function getProductTitle(id: number) {
   return product;
 }
 
-const getCachedProductTitle = nextCache(getProductTitle, ["product-title"], {
-  revalidate: 10,
-});
+function getCachedProductTitle(productId: number) {
+  const cachedOperation = nextCache(
+    getProductTitle,
+    [`product-title-${productId}`],
+    {
+      revalidate: 60,
+      tags: [`product-title-${productId}`],
+    }
+  );
+  return cachedOperation(productId);
+}
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const product = await getCachedProductTitle(Number(params.id));
@@ -61,9 +65,17 @@ async function getProduct(id: number) {
   return product;
 }
 
-const getCachedProduct = nextCache(getProduct, ["product-detail"], {
-  revalidate: 30,
-});
+function getCachedProductDetail(productId: number) {
+  const cachedOperation = nextCache(
+    getProduct,
+    [`product-detail-${productId}`],
+    {
+      revalidate: 60,
+      tags: [`product-detail-${productId}`],
+    }
+  );
+  return cachedOperation(productId);
+}
 
 export default async function ProductDetail({
   params,
@@ -80,7 +92,7 @@ export default async function ProductDetail({
 
   // DB에 해당 id값의 데이터가 있으면 가져오고,
   // 없으면 에러페이지로 이동한다.
-  const product = await getCachedProduct(id);
+  const product = await getCachedProductDetail(id);
   if (!product) {
     return notFound();
   }

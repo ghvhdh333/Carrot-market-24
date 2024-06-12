@@ -18,6 +18,7 @@ import {
   DESCRIPTION_MAX_LENGTH,
   DESCRIPTION_MAX_LENGTH_ERROR,
 } from "@/lib/constants";
+import { revalidateTag } from "next/cache";
 
 const postSchema = z.object({
   title: z
@@ -62,6 +63,9 @@ export async function uploadPost(_: any, formData: FormData) {
           id: true,
         },
       });
+      revalidateTag(`life-post-list`);
+      revalidateTag(`post-detail-${post.id}`);
+      revalidateTag(`post-title-${post.id}`);
       redirect(`/post/${post.id}`);
     }
   }
