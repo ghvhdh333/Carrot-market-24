@@ -1,6 +1,6 @@
 "use client";
 
-import { onClickDeletePost } from "@/app/post/[id]/action";
+import { onClickDeletePost } from "@/app/post/[id]/actions";
 import { ArrowPathIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
