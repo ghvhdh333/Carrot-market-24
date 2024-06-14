@@ -8,7 +8,7 @@
 // }
 
 import ModalCloseBtn from "@/components/buttons/modal-close-btn";
-import ProductViewLargerBtn from "@/components/buttons/product-view-larger-btn";
+import ProductViewLargerBtn from "@/components/product-page/product-view-larger-btn";
 import db from "@/lib/db";
 import { formatToWon } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/24/solid";

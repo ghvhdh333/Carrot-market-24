@@ -8,7 +8,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import LikeButton from "@/components/buttons/like-btn";
 import EditBtn from "@/components/buttons/edit-btn";
-import PostDeleteBtn from "@/components/buttons/post-delete-btn";
+import PostDeleteBtn from "@/components/life-page/post-delete-btn";
 
 async function getPostTitle(id: number) {
   const post = await db.post.findUnique({

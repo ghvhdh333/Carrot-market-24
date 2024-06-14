@@ -60,7 +60,7 @@ export default function PostList({ initialPostList }: PostListProps) {
   }, [page]);
 
   return (
-    <div className="p-5 flex flex-col gap-5 mb-20">
+    <div className="p-5 flex flex-col mb-20">
       {postList.map((post) => (
         <PostSimpleInfo key={post.id} {...post} />
       ))}

@@ -29,7 +29,7 @@ export default function PostSimpleInfo({
     <div className="border-b border-neutral-500 last:pb-0 last:border-b-0">
       <Link
         href={`/post/${id}`}
-        className="py-3 text-neutral-400 flex flex-col gap-2 hover:bg-neutral-800 hover:rounded-lg"
+        className="py-5 text-neutral-400 flex flex-col gap-2 hover:bg-neutral-800 hover:rounded-lg"
       >
         <h2 className="text-white text-lg font-semibold">{title}</h2>
         {description!.length >= 30 ? (

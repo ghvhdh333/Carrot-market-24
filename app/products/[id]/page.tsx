@@ -1,5 +1,5 @@
 import EditBtn from "@/components/buttons/edit-btn";
-import ProductDeleteBtn from "@/components/buttons/product-delete-btn";
+import ProductDeleteBtn from "@/components/product-page/product-delete-btn";
 import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { formatToWon } from "@/lib/utils";
