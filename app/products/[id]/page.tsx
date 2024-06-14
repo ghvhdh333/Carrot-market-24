@@ -1,12 +1,19 @@
+import BackBtn from "@/components/buttons/back-btn";
 import EditBtn from "@/components/buttons/edit-btn";
-import ProductDeleteBtn from "@/components/product-page/product-delete-btn";
+import ProductDeleteBtn from "@/components/home-page/product-delete-btn";
 import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { formatToWon } from "@/lib/utils";
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
-import { UserIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowLeftCircleIcon,
+  ArrowLeftIcon,
+  HomeIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 // 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
@@ -124,7 +131,10 @@ export default async function ProductDetail({
   };
 
   return (
-    <div className="pb-28">
+    <div className="pb-28 flex flex-col">
+      <div className="my-2 flex flex-row">
+        <BackBtn link={"/"} />
+      </div>
       <div className="relative aspect-square">
         <Image
           className="object-cover rounded-lg"
@@ -154,9 +164,9 @@ export default async function ProductDetail({
           </div>
         </div>
         {isOwner ? (
-          <div className="flex flex-row gap-4">
-            <EditBtn link={`/edit/product/${id}`} />
+          <div className="">
             <ProductDeleteBtn id={id} />
+            <EditBtn link={`/edit/product/${id}`} />
           </div>
         ) : null}
       </div>

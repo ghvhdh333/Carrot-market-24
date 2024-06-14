@@ -53,7 +53,7 @@ export default function ProductList({ initialProductList }: ProductListProps) {
     if (trigger.current) {
       observer.observe(trigger.current);
     }
-    // 유저가 해당 페이지를 벗어난다면, 트리거를 더이상 관찰하지 않는다.
+    // 유저가 해당 페이지를 벗어난다면, 트리거를 더이상 관찰하지 않는다. 메모리 누수 방지
     return () => {
       observer.disconnect();
     };

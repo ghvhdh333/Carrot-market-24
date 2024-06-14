@@ -1,4 +1,4 @@
-import ProductList from "@/components/product-page/product-list";
+import ProductList from "@/components/home-page/product-list";
 import db from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
