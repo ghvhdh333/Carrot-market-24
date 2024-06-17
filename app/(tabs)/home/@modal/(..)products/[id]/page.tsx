@@ -1,12 +1,4 @@
-// async function getModal() {
 //   await new Promise((resolve) => setTimeout(resolve, 100000));
-// }
-
-// export default async function Modal() {
-//   const modal = await getModal();
-//   return <>loading</>;
-// }
-
 import ModalCloseBtn from "@/components/buttons/modal-close-btn";
 import ProductViewLargerBtn from "@/components/home-page/product-view-larger-btn";
 import db from "@/lib/db";
