@@ -40,9 +40,9 @@ export async function onClickDeleteUser(id: number) {
   );
 
   // productPhotoIds를 순회하면서 순서대로 cloudflare의 이미지를 지운다.
-  for (let i = 0; i < productPhotoIds.length; i++) {
+  const deletePromises = productPhotoIds.map(async (photoId) => {
     await fetch(
-      `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1/${productPhotoIds[i]}`,
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1/${photoId}`,
       {
         method: "DELETE",
         headers: {
@@ -51,7 +51,10 @@ export async function onClickDeleteUser(id: number) {
         },
       }
     );
-  }
+  });
+
+  // Promise.all를 사용하여 모든 작업이 완료될 때까지 기다리도록 함
+  await Promise.all(deletePromises);
 
   // 유저 정보 삭제
   await db.user.delete({
@@ -63,8 +66,13 @@ export async function onClickDeleteUser(id: number) {
     },
   });
 
-  // 유저가 등록한 데이터가 다 지워지므로, 캐시 최신화 시키기
+  // session 삭제
+  const session = await getSession();
+  await session.destroy();
+
+  // 캐시 최신화
   revalidateTag(`home-product-list`);
   revalidateTag(`life-post-list`);
+
   // redirect는 user delete btn에 있음
 }
