@@ -2,6 +2,13 @@ import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { notFound } from "next/navigation";
 import { logOut } from "./actions";
+import {
+  Cog6ToothIcon,
+  CubeIcon,
+  NewspaperIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import UserDeleteBtn from "@/components/buttons/user-delete-btn";
 
 // 유저 정보 가져옴
 async function getUser() {
@@ -22,9 +29,11 @@ async function getUser() {
 
 export default async function Profile() {
   const user = await getUser();
+  const githubId = user.github_id;
+
   return (
     <div className="p-5 mb-20">
-      <div className="flex flex-row justify-between">
+      <section className="flex flex-row justify-between mb-10">
         <h1 className="flex flex-row gap-2 text-2xl font-semibold">
           <span className="text-orange-400">Welcome!</span>
           <span>{user?.username}</span>
@@ -34,8 +43,45 @@ export default async function Profile() {
             Log out
           </button>
         </form>
-      </div>
-      {/* <div>Edit</div> */}
+      </section>
+
+      <section className="flex flex-col gap-8 text-xl">
+        {/* Github 유저가 아닌 경우, 프로필 편집 가능 */}
+        {!githubId ? (
+          <section className="flex flex-row">
+            <Link
+              href={`/edit/profile/${user.id}`}
+              className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300"
+            >
+              <Cog6ToothIcon className="w-7 h-7" />
+              프로필 편집
+            </Link>
+          </section>
+        ) : null}
+        <section className="flex flex-row">
+          <Link
+            href={`/edit/profile/${user.id}`}
+            className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
+          >
+            <CubeIcon className="w-7 h-7" />
+            등록한 상품 보러가기
+          </Link>
+        </section>
+        <section className="flex flex-row">
+          <Link
+            href={`/edit/profile/${user.id}`}
+            className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
+          >
+            <NewspaperIcon className="w-7 h-7" />
+            등록한 게시물 보러가기
+          </Link>
+        </section>
+      </section>
+
+      {/* 회원 탈퇴 버튼을 만들고, 재차 확인 버튼을 만들기! */}
+      <section className="mt-20">
+        <UserDeleteBtn id={user.id} />
+      </section>
     </div>
   );
 }

@@ -5,15 +5,9 @@ import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { formatToWon } from "@/lib/utils";
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
-import {
-  ArrowLeftCircleIcon,
-  ArrowLeftIcon,
-  HomeIcon,
-  UserIcon,
-} from "@heroicons/react/24/solid";
+import { UserIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 // 쿠키에 있는 id가 제품을 업로드한 사용자의 id와 일치하는지 확인한다.
