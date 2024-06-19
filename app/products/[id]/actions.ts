@@ -33,5 +33,6 @@ export async function onClickDeleteProduct(id: number) {
   revalidateTag(`home-product-list`);
   revalidateTag(`product-detail-${product.id}`);
   revalidateTag(`product-title-${product.id}`);
+  revalidateTag(`my-product-list`);
   // redirect는 product delete btn에 있음
 }
