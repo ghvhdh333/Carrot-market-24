@@ -2,11 +2,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { notFound } from "next/navigation";
 import { logOut } from "./actions";
-import {
-  Cog6ToothIcon,
-  CubeIcon,
-  NewspaperIcon,
-} from "@heroicons/react/24/outline";
+import { CubeIcon, NewspaperIcon, UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import UserDeleteBtn from "@/components/buttons/user-delete-btn";
 
@@ -44,7 +40,7 @@ export default async function Profile() {
         </h1>
         <form action={logOut}>
           <button className="bg-neutral-400 py-2 px-4 rounded-full font-semibold hover:bg-opacity-90">
-            Log out
+            로그아웃
           </button>
         </form>
       </section>
@@ -57,7 +53,7 @@ export default async function Profile() {
               href={`/edit/profile/${user.id}`}
               className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300"
             >
-              <Cog6ToothIcon className="w-7 h-7" />
+              <UserIcon className="w-7 h-7" />
               프로필 편집
             </Link>
           </section>
@@ -68,7 +64,7 @@ export default async function Profile() {
             className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
           >
             <CubeIcon className="w-7 h-7" />
-            내가 등록한 상품들
+            나의 상품들
           </Link>
         </section>
         <section className="flex flex-row">
@@ -77,7 +73,7 @@ export default async function Profile() {
             className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
           >
             <NewspaperIcon className="w-7 h-7" />
-            내가 등록한 게시물들
+            나의 게시물들
           </Link>
         </section>
       </section>
