@@ -2,7 +2,7 @@ import db from "@/lib/db";
 
 import getSession from "@/lib/session/getSession";
 import { formatToTimeAgo } from "@/lib/utils";
-import { ArrowLeftIcon, EyeIcon, UserIcon } from "@heroicons/react/24/solid";
+import { EyeIcon, UserIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -10,7 +10,7 @@ import LikeButton from "@/components/buttons/like-btn";
 import EditBtn from "@/components/buttons/edit-btn";
 import PostDeleteBtn from "@/components/life-page/post-delete-btn";
 import Link from "next/link";
-import BackBtn from "@/components/buttons/back-btn";
+import { NewspaperIcon } from "@heroicons/react/24/outline";
 
 async function getPostTitle(id: number) {
   const post = await db.post.findUnique({
@@ -140,7 +140,12 @@ export default async function PostDetail({
 
   return (
     <div className="p-5 text-white">
-      <BackBtn link={"/life"} />
+      <Link
+        href={"/home"}
+        className="w-10 h-10 flex flex-row justify-center items-center bg-orange-400 rounded-full hover:bg-opacity-90"
+      >
+        <NewspaperIcon className="text-white w-8 h-8 " />
+      </Link>
       <div className="flex flex-row justify-between items-center pt-5">
         <div className="flex flex-row items-center gap-2 mb-2">
           <div>

@@ -35,8 +35,8 @@ export default async function Profile() {
     <div className="p-5 mb-20">
       <section className="flex flex-row justify-between mb-10">
         <h1 className="flex flex-row gap-2 text-2xl font-semibold">
-          <span className="text-orange-400">Welcome!</span>
-          <span>{user?.username}</span>
+          <span className="text-orange-400">Welcome</span>
+          <span>{user?.username} 🥕</span>
         </h1>
         <form action={logOut}>
           <button className="bg-neutral-400 py-2 px-4 rounded-full font-semibold hover:bg-opacity-90">
