@@ -5,6 +5,8 @@ import { getMyProducts } from "./actions";
 import ProductSimpleInfo from "@/components/home-page/product-simple-info";
 import { unstable_cache as nextCache } from "next/cache";
 import Link from "next/link";
+import { HomeIcon } from "@heroicons/react/24/outline";
+
 export const metadata = {
   title: "My Products",
 };
@@ -37,7 +39,7 @@ export default async function MyProducts() {
 
   return (
     <div className="p-5 flex flex-col gap-5">
-      <h1 className="font-semibold text-xl">My Products</h1>
+      <h1 className="font-semibold text-xl">나의 상품들</h1>
       {myProducts[0].products.length === 0 ? (
         <section className="bg-neutral-700 w-full h-52 rounded-lg text-white flex flex-col justify-center items-center gap-3 mt-5">
           <div>등록 내역이 없습니다.</div>
@@ -49,9 +51,17 @@ export default async function MyProducts() {
           </Link>
         </section>
       ) : (
-        myProducts[0].products.map((product) => (
-          <ProductSimpleInfo key={product.id} {...product} />
-        ))
+        <div className="flex flex-col gap-5">
+          {myProducts[0].products.map((product) => (
+            <ProductSimpleInfo key={product.id} {...product} />
+          ))}
+          <Link
+            href={"/home"}
+            className="bg-orange-500 flex items-center justify-center rounded-full size-16 fixed bottom-24 right-8 text-white transition-colors hover:bg-orange-400"
+          >
+            <HomeIcon className="size-10" />
+          </Link>
+        </div>
       )}
     </div>
   );

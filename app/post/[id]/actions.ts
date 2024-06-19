@@ -49,4 +49,5 @@ export async function onClickDeletePost(id: number) {
   revalidateTag("life-post-list");
   revalidateTag(`post-detail-${post.id}`);
   revalidateTag(`post-title-${post.id}`);
+  revalidateTag(`my-post-list`);
 }

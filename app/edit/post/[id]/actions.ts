@@ -70,6 +70,7 @@ export async function editPostUpload(_: any, formData: FormData) {
       revalidateTag(`life-post-list`);
       revalidateTag(`post-detail-${post.id}`);
       revalidateTag(`post-title-${post.id}`);
+      revalidateTag(`my-post-list`);
       redirect(`/post/${post.id}`);
     }
   }

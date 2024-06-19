@@ -74,6 +74,7 @@ export async function onClickDeleteUser(id: number) {
   revalidateTag(`home-product-list`);
   revalidateTag(`life-post-list`);
   revalidateTag(`my-product-list`);
+  revalidateTag(`my-post-list`);
 
   // redirect는 user delete btn에 있음
 }
