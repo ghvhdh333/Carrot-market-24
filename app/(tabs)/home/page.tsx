@@ -5,7 +5,7 @@ import { unstable_cache as nextCache, revalidateTag } from "next/cache";
 import AddBtn from "@/components/buttons/add-btn";
 
 export const metadata = {
-  title: "home",
+  title: "Home",
 };
 
 // 상품 리스트를 cache로 저장한다.

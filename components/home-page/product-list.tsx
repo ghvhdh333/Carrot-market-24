@@ -67,7 +67,7 @@ export default function ProductList({ initialProductList }: ProductListProps) {
       {!isLastPage ? (
         <span
           ref={trigger}
-          className="text-sm font-semibold bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md hover:opacity-90 active:scale-95"
+          className="text-sm font-semibold bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md hover:opacity-90 active:scale-95 mt-5"
         >
           {isLoading ? "Loading..." : "Load more"}
         </span>

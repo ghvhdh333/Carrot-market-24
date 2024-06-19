@@ -1,3 +1,7 @@
+export const metadata = {
+  title: "Live",
+};
+
 export default function Live() {
   return (
     <div>

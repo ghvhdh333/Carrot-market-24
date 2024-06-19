@@ -10,6 +10,10 @@ import {
 import Link from "next/link";
 import UserDeleteBtn from "@/components/buttons/user-delete-btn";
 
+export const metadata = {
+  title: "Profile",
+};
+
 // 유저 정보 가져옴
 async function getUser() {
   const session = await getSession();
@@ -60,20 +64,20 @@ export default async function Profile() {
         ) : null}
         <section className="flex flex-row">
           <Link
-            href={`/edit/profile/${user.id}`}
+            href={`/my/products`}
             className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
           >
             <CubeIcon className="w-7 h-7" />
-            등록한 상품 보러가기
+            내가 등록한 상품들
           </Link>
         </section>
         <section className="flex flex-row">
           <Link
-            href={`/edit/profile/${user.id}`}
+            href={`/my/posts`}
             className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
           >
             <NewspaperIcon className="w-7 h-7" />
-            등록한 게시물 보러가기
+            내가 등록한 게시물들
           </Link>
         </section>
       </section>
