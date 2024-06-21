@@ -141,7 +141,7 @@ export default async function PostDetail({
   return (
     <div className="p-5 text-white">
       <Link
-        href={"/home"}
+        href={"/life"}
         className="w-10 h-10 flex flex-row justify-center items-center bg-orange-400 rounded-full hover:bg-opacity-90"
       >
         <NewspaperIcon className="text-white w-8 h-8 " />
