@@ -56,7 +56,7 @@ const formSchema = z
 
 export async function editUsername(prevState: any, formData: FormData) {
   const session = await getSession();
-  if (!session) return notFound;
+  if (!session) return;
   const id = session.id;
 
   const data = {

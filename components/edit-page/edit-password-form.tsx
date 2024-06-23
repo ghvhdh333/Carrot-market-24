@@ -6,12 +6,9 @@ import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 import Button from "@/components/buttons/Button";
 import { editPassword } from "@/app/edit/password/actions";
 
-interface EditProfileFormProps {
-  id: number;
-}
-
-export default function EditPasswordForm({ id }: EditProfileFormProps) {
+export default function EditPasswordForm() {
   const [state, action] = useFormState(editPassword, null);
+
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-xl font-semibold">비밀번호 변경</h1>
@@ -22,7 +19,7 @@ export default function EditPasswordForm({ id }: EditProfileFormProps) {
           type="password"
           placeholder="Password"
           minLength={PASSWORD_MIN_LENGTH}
-          errors={state?.fieldErrors.password}
+          errors={state?.fieldErrors?.password}
         />
         <Input
           required

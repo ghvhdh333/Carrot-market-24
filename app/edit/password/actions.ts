@@ -52,7 +52,7 @@ const formSchema = z
 
 export async function editPassword(prevState: any, formData: FormData) {
   const session = await getSession();
-  if (!session) return notFound;
+  if (!session) return;
   const id = session.id;
 
   const data = {
@@ -62,7 +62,6 @@ export async function editPassword(prevState: any, formData: FormData) {
 
   // checkUniqueUsername, checkUniqueEmail을 확인하기 위해 async await를 사용한다.
   const result = await formSchema.safeParseAsync(data);
-
   if (!result.success) {
     return result.error.flatten();
   } else {

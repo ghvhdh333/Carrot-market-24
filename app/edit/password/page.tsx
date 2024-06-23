@@ -22,7 +22,7 @@ export default async function EditPassword() {
   const user = await getUser();
   return (
     <div className="flex flex-col gap-5 p-5">
-      <EditPasswordForm id={user.id} />
+      <EditPasswordForm />
     </div>
   );
 }
