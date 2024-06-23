@@ -2,7 +2,14 @@ import db from "@/lib/db";
 import getSession from "@/lib/session/getSession";
 import { notFound } from "next/navigation";
 import { logOut } from "./actions";
-import { CubeIcon, NewspaperIcon, UserIcon } from "@heroicons/react/24/outline";
+import {
+  CubeIcon,
+  FaceSmileIcon,
+  IdentificationIcon,
+  KeyIcon,
+  NewspaperIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import UserDeleteBtn from "@/components/buttons/user-delete-btn";
 
@@ -48,33 +55,58 @@ export default async function Profile() {
       <section className="flex flex-col gap-8 text-xl">
         {/* Github 유저가 아닌 경우, 프로필 편집 가능 */}
         {!githubId ? (
-          <section className="flex flex-row">
-            <Link
-              href={`/edit/profile/${user.id}`}
-              className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300"
-            >
-              <UserIcon className="w-7 h-7" />
-              프로필 편집
-            </Link>
+          <section className="flex flex-col gap-4 border-b pb-8">
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-row">
+                <Link
+                  href={`/edit/username`}
+                  className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300"
+                >
+                  <UserIcon className="w-7 h-7" />
+                  닉네임 변경
+                </Link>
+              </div>
+              <div className="flex flex-row">
+                <Link
+                  href={`/edit/password`}
+                  className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300"
+                >
+                  <KeyIcon className="w-7 h-7" />
+                  비밀번호 변경
+                </Link>
+              </div>
+              {/* <div className="flex flex-row">
+                <Link
+                  href={`/edit/profile`}
+                  className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300"
+                >
+                  <FaceSmileIcon className="w-7 h-7" />
+                  프로필 이미지 변경
+                </Link>
+              </div> */}
+            </div>
           </section>
         ) : null}
-        <section className="flex flex-row">
-          <Link
-            href={`/my/products`}
-            className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
-          >
-            <CubeIcon className="w-7 h-7" />
-            나의 상품들
-          </Link>
-        </section>
-        <section className="flex flex-row">
-          <Link
-            href={`/my/posts`}
-            className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
-          >
-            <NewspaperIcon className="w-7 h-7" />
-            나의 게시물들
-          </Link>
+
+        <section className="flex flex-col gap-4">
+          <div className="flex flex-row">
+            <Link
+              href={`/my/products`}
+              className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
+            >
+              <CubeIcon className="w-7 h-7" />
+              나의 상품 목록
+            </Link>
+          </div>
+          <div className="flex flex-row">
+            <Link
+              href={`/my/posts`}
+              className="flex flex-row gap-2 items-center text-white hover:text-orange-400 active:text-orange-300 cursor-pointer"
+            >
+              <NewspaperIcon className="w-7 h-7" />
+              나의 게시물 목록
+            </Link>
+          </div>
         </section>
       </section>
 

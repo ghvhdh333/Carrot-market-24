@@ -25,7 +25,7 @@ async function getPostTitle(id: number) {
 function getCachedPostTitle(postId: number) {
   const cachedOperation = nextCache(getPostTitle, [`post-title-${postId}`], {
     revalidate: 60,
-    tags: [`post-title-${postId}`],
+    tags: [`post-title-${postId}`, "post-title"],
   });
   return cachedOperation(postId);
 }
@@ -80,7 +80,7 @@ async function getPostDetail(id: number) {
 function getCachedPostDetail(postId: number) {
   const cachedOperation = nextCache(getPostDetail, [`post-detail-${postId}`], {
     revalidate: 60,
-    tags: [`post-detail-${postId}`],
+    tags: [`post-detail-${postId}`, "post-detail"],
   });
   return cachedOperation(postId);
 }

@@ -38,7 +38,7 @@ function getCachedProductTitle(productId: number) {
     [`product-title-${productId}`],
     {
       revalidate: 60,
-      tags: [`product-title-${productId}`],
+      tags: [`product-title-${productId}`, "product-title"],
     }
   );
   return cachedOperation(productId);
@@ -75,7 +75,7 @@ function getCachedProductDetail(productId: number) {
     [`product-detail-${productId}`],
     {
       revalidate: 60,
-      tags: [`product-detail-${productId}`],
+      tags: [`product-detail-${productId}`, "product-detail"],
     }
   );
   return cachedOperation(productId);
@@ -166,7 +166,7 @@ export default async function ProductDetail({
           </div>
         </div>
         {isOwner ? (
-          <div className="">
+          <div>
             <ProductDeleteBtn id={id} />
             <EditBtn link={`/edit/product/${id}`} />
           </div>
