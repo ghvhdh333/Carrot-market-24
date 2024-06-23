@@ -2,10 +2,12 @@
 
 import {
   EMAIL_INVALID_TYPE_ERROR,
+  EMAIL_NOT_EXIST_ERROR,
   EMAIL_REQUIRED_ERROR,
   PASSWORD_MIN_LENGTH,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
+  PASSWORD_REQUIRED_ERROR,
 } from "@/lib/constants";
 import db from "@/lib/db";
 import UpdateSession from "@/lib/session/updateSession";
@@ -34,11 +36,11 @@ const formSchema = z.object({
     .email()
     .trim()
     .toLowerCase()
-    .refine(checkEmailExists, "An account with this email does not exist."),
+    .refine(checkEmailExists, EMAIL_NOT_EXIST_ERROR),
 
   password: z
     .string({
-      required_error: "Password is required",
+      required_error: PASSWORD_REQUIRED_ERROR,
     })
     .min(PASSWORD_MIN_LENGTH)
     .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
@@ -76,7 +78,7 @@ export async function logInForm(prevState: any, formData: FormData) {
     } else {
       return {
         fieldErrors: {
-          password: ["Wrong password."],
+          password: ["잘못된 비밀번호입니다."],
           email: [],
         },
       };

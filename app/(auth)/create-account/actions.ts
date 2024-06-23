@@ -16,6 +16,9 @@ import {
   PASSWORD_REGEX_ERROR,
   CONFIRM_PASSWORD_INVALID_TYPE_ERROR,
   CONFIRM_PASSWORD_REQUIRED_ERROR,
+  TWO_PASSWORDS_NOT_EQUAL_ERROR,
+  USERNAME_ALREADY_EXISTS_ERROR,
+  EMAIL_ALREADY_EXISTS_ERROR,
 } from "@/lib/constants";
 
 import bcrypt from "bcrypt";
@@ -79,7 +82,7 @@ const formSchema = z
     if (user) {
       ctx.addIssue({
         code: "custom",
-        message: "This username is already taken",
+        message: USERNAME_ALREADY_EXISTS_ERROR,
         path: ["username"],
         fatal: true,
       });
@@ -99,7 +102,7 @@ const formSchema = z
     if (user) {
       ctx.addIssue({
         code: "custom",
-        message: "This email is already taken",
+        message: EMAIL_ALREADY_EXISTS_ERROR,
         path: ["email"],
         fatal: true,
       });
@@ -111,7 +114,7 @@ const formSchema = z
     if (password !== confirm_password) {
       ctx.addIssue({
         code: "custom",
-        message: "Two passwords should be equal",
+        message: TWO_PASSWORDS_NOT_EQUAL_ERROR,
         path: ["confirm_password"],
       });
     }

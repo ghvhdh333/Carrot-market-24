@@ -7,6 +7,7 @@ import {
   USERNAME_MIN_LENGTH_ERROR,
   USERNAME_MAX_LENGTH,
   USERNAME_MAX_LENGTH_ERROR,
+  ALREADY_EXISTS_ERROR,
 } from "@/lib/constants";
 
 import db from "@/lib/db";
@@ -46,7 +47,7 @@ const formSchema = z
     if (user) {
       ctx.addIssue({
         code: "custom",
-        message: "This username is already taken",
+        message: ALREADY_EXISTS_ERROR,
         path: ["username"],
         fatal: true,
       });

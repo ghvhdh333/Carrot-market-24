@@ -24,23 +24,6 @@ export default function PostDeleteBtn({ id }: PostDeleteBtnProps) {
 
   return (
     <div>
-      {/* {isLoading ? (
-        <button
-          disabled
-          type="button"
-          className="bg-neutral-500 px-5 py-2.5 rounded-md text-white font-semibold hover:pointer-events-none"
-        >
-          <ArrowPathIcon className="size-5 animate-spin" />
-        </button>
-      ) : (
-        <button
-          onClick={onDelete}
-          type="button"
-          className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold hover:bg-opacity-90"
-        >
-          <TrashIcon className="size-5" />
-        </button>
-      )} */}
       {isLoading ? (
         <button
           disabled

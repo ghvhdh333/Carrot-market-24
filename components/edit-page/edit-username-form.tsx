@@ -6,11 +6,7 @@ import { USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH } from "@/lib/constants";
 import Button from "@/components/buttons/Button";
 import { editUsername } from "@/app/edit/username/actions";
 
-interface EditProfileFormProps {
-  id: number;
-}
-
-export default function EditUsernameForm({ id }: EditProfileFormProps) {
+export default function EditUsernameForm() {
   const [state, action] = useFormState(editUsername, null);
   return (
     <div className="flex flex-col gap-5">

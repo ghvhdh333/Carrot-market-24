@@ -9,6 +9,7 @@ import {
   PASSWORD_REGEX_ERROR,
   CONFIRM_PASSWORD_INVALID_TYPE_ERROR,
   CONFIRM_PASSWORD_REQUIRED_ERROR,
+  TWO_PASSWORDS_NOT_EQUAL_ERROR,
 } from "@/lib/constants";
 
 import bcrypt from "bcrypt";
@@ -17,7 +18,7 @@ import db from "@/lib/db";
 
 import { z } from "zod";
 import UpdateSession from "@/lib/session/updateSession";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import getSession from "@/lib/session/getSession";
 import { revalidateTag } from "next/cache";
 
@@ -44,7 +45,7 @@ const formSchema = z
     if (password !== confirm_password) {
       ctx.addIssue({
         code: "custom",
-        message: "Two passwords should be equal",
+        message: TWO_PASSWORDS_NOT_EQUAL_ERROR,
         path: ["confirm_password"],
       });
     }
