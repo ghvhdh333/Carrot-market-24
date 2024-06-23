@@ -4,8 +4,6 @@ import { notFound } from "next/navigation";
 import { logOut } from "./actions";
 import {
   CubeIcon,
-  FaceSmileIcon,
-  IdentificationIcon,
   KeyIcon,
   NewspaperIcon,
   UserIcon,
