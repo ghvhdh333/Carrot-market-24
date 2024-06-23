@@ -7,14 +7,14 @@ import {
   USERNAME_MIN_LENGTH_ERROR,
   USERNAME_MAX_LENGTH,
   USERNAME_MAX_LENGTH_ERROR,
-  ALREADY_EXISTS_ERROR,
+  USERNAME_ALREADY_EXISTS_ERROR,
 } from "@/lib/constants";
 
 import db from "@/lib/db";
 
 import { z } from "zod";
 import UpdateSession from "@/lib/session/updateSession";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import getSession from "@/lib/session/getSession";
 import { revalidateTag } from "next/cache";
 
@@ -47,7 +47,7 @@ const formSchema = z
     if (user) {
       ctx.addIssue({
         code: "custom",
-        message: ALREADY_EXISTS_ERROR,
+        message: USERNAME_ALREADY_EXISTS_ERROR,
         path: ["username"],
         fatal: true,
       });
