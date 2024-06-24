@@ -39,7 +39,7 @@ export default async function MyPosts() {
 
   return (
     <div className="p-5 flex flex-col">
-      <h1 className="font-semibold text-xl mb-3">나의 게시물들</h1>
+      <h1 className="font-semibold text-xl mb-3">나의 게시물 목록</h1>
       {myPosts[0].posts.length === 0 ? (
         <section className="bg-neutral-700 w-full h-52 rounded-lg text-white flex flex-col justify-center items-center gap-3 mt-5">
           <div>등록 내역이 없습니다.</div>

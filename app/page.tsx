@@ -10,12 +10,12 @@ export default function Home() {
       </div>
       <div className="flex flex-col items-center gap-3 w-full">
         <Link href="/create-account" className="primary-btn text-lg py-2.5">
-          Start
+          시작하기
         </Link>
         <div className="flex gap-2">
-          <span>Already have an account?</span>
+          <span>이미 계정이 있으신가요?</span>
           <Link href="/login" className="hover:underline">
-            Log In
+            로그인
           </Link>
         </div>
       </div>

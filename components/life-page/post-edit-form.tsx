@@ -19,7 +19,7 @@ export default function PostEditForm({ postId }: PostEditFormProps) {
   const [state, action] = useFormState(editPostUpload, null);
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-semibold">Post Edit</h1>
+      <h1 className="text-xl font-semibold">게시물 편집하기</h1>
       <form action={action} className="flex flex-col gap-5">
         <Input type="hidden" name="id" value={postId} />
         <Input

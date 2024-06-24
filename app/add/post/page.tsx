@@ -15,8 +15,9 @@ export default function AddProduct() {
   const [state, action] = useFormState(uploadPost, null);
 
   return (
-    <div>
-      <form action={action} className="p-5 flex flex-col gap-5">
+    <div className="p-5 flex flex-col gap-5">
+      <h1 className="text-xl font-semibold">게시물 추가하기</h1>
+      <form action={action} className="flex flex-col gap-5">
         <Input
           name="title"
           required

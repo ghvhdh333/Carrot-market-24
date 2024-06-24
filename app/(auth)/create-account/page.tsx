@@ -14,10 +14,10 @@ import {
 export default function CreateAccount() {
   const [state, action] = useFormState(createAccount, null);
   return (
-    <div className="flex flex-col gap-10 py-8 px-6">
+    <div className="flex flex-col gap-8 pt-8 px-6">
       <div className="flex flex-col gap-2 *:font-medium">
-        <h1 className="text-2xl">Hello!</h1>
-        <h2 className="text-xl">Fill in the form below to join!</h2>
+        <h1 className="text-2xl">안녕하세요!</h1>
+        <h2 className="text-xl">가입하시려면 아래 양식을 작성해주세요!</h2>
       </div>
       <form action={action} className="flex flex-col gap-3">
         <Input

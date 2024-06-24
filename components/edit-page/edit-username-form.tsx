@@ -10,7 +10,7 @@ export default function EditUsernameForm() {
   const [state, action] = useFormState(editUsername, null);
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-xl font-semibold">닉네임 변경</h1>
+      <h1 className="text-xl font-semibold">닉네임 변경하기</h1>
       <form action={action} className="flex flex-col gap-3">
         <Input
           required

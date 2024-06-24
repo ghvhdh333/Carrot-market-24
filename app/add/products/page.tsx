@@ -73,8 +73,9 @@ export default function AddProduct() {
   const [state, action] = useFormState(interceptAction, null);
 
   return (
-    <div>
-      <form action={action} className="p-5 flex flex-col gap-5">
+    <div className="p-5 flex flex-col gap-5">
+      <h1 className="text-xl font-semibold">상품 추가하기</h1>
+      <form action={action} className="flex flex-col gap-5">
         <label
           htmlFor="photo"
           className="relative border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
