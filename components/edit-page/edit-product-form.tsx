@@ -4,7 +4,6 @@ import Button from "@/components/buttons/Button";
 import Input from "@/components/Input";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import { getCloudflareUploadUrl, uploadProduct } from "./actions";
 import { useFormState } from "react-dom";
 import {
   DESCRIPTION_MAX_LENGTH,
@@ -15,66 +14,77 @@ import {
   TITLE_MAX_LENGTH,
   TITLE_MIN_LENGTH,
 } from "@/lib/constants";
+import {
+  editProduct,
+  getCloudflareUploadUrl,
+} from "@/app/edit/product/[id]/actions";
 
-export default function AddProduct() {
+interface EditProductFormProps {
+  oldProduct: {
+    id: number;
+    title: string;
+    price: number;
+    photo: string;
+    description: string;
+    userId: number;
+  };
+}
+
+export default function EditProductForm({ oldProduct }: EditProductFormProps) {
   const [isImgSizeOk, setIsImgSizeOk] = useState(true);
   const [preview, setPreview] = useState("");
   const [photoId, setPhotoId] = useState("");
   const [uploadUrl, setUploadUrl] = useState("");
 
+  // 이미지 선택과, 미리보기, 그리고 이미지 선택 시 cloudflare의 uploadURL를 가져옴
   const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     // 구조분해로 event.target.files 만 가져온다.
     // files = event.target.files와 같다.
     const {
       target: { files },
     } = event;
-    if (!files) {
-      return;
-    }
+    if (!files) return;
     const file = files[0];
-    // 파일 사이즈 크기 확인 (file < 3MB)
-    if (file.size < IMAGE_MAX_SIZE) {
-      setIsImgSizeOk(true);
-      const url = URL.createObjectURL(file);
-      setPreview(url);
-
-      // cloudflare에서 upload URL를 가져온다.
-      const { success, result } = await getCloudflareUploadUrl();
-      if (success) {
-        const { id, uploadURL } = result;
-        setUploadUrl(uploadURL);
-        setPhotoId(id);
-      }
-    } else {
+    // 파일 사이즈 크기 확인 (file >= 3MB)
+    if (file.size >= IMAGE_MAX_SIZE) {
       setIsImgSizeOk(false);
       setPreview("");
+      return;
+    }
+    setIsImgSizeOk(true);
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+
+    // cloudflare에서 upload URL를 가져온다.
+    const { success, result } = await getCloudflareUploadUrl();
+    if (success) {
+      const { id, uploadURL } = result;
+      setUploadUrl(uploadURL);
+      setPhotoId(id);
     }
   };
 
+  // actions의 submit 요청을 가로채서 먼저 작업한다.
   const interceptAction = async (_: any, formData: FormData) => {
     const file = formData.get("photo");
-    if (!file) {
-      return;
-    }
+    if (!file) return;
     const cloudflareForm = new FormData();
     cloudflareForm.append("file", file);
     const response = await fetch(uploadUrl, {
       method: "post",
       body: cloudflareForm,
     });
-    if (response.status !== 200) {
-      return;
-    }
+    if (response.status !== 200) return;
     const photoUrl = `https://imagedelivery.net/U3ZvfSHMWBX1DnDWzDMR4A/${photoId}`;
     formData.set("photo", photoUrl);
-    return uploadProduct(_, formData);
+    return editProduct(_, formData);
   };
 
   const [state, action] = useFormState(interceptAction, null);
 
   return (
-    <div className="p-5 flex flex-col gap-5">
-      <h1 className="text-xl font-semibold">상품 추가하기</h1>
+    <div className="p-5">
+      <h1 className="text-xl font-semibold mb-5">상품 편집하기</h1>
       <form action={action} className="flex flex-col gap-5">
         <label
           htmlFor="photo"
@@ -96,6 +106,7 @@ export default function AddProduct() {
             </>
           ) : null}
         </label>
+        <Input type="hidden" name="id" value={oldProduct.id} />
         <input
           onChange={onImageChange}
           type="file"

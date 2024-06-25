@@ -29,6 +29,7 @@ import {
 import { revalidateTag } from "next/cache";
 
 const productSchema = z.object({
+  id: z.coerce.number(),
   photo: z.string({
     required_error: PHOTO_REQUIRED_ERROR,
     invalid_type_error: PHOTO_INVALID_TYPE_ERROR,
@@ -56,8 +57,9 @@ const productSchema = z.object({
     .max(PRICE_MAX, PRICE_MAX_ERROR),
 });
 
-export async function uploadProduct(_: any, formData: FormData) {
+export async function editProduct(_: any, formData: FormData) {
   const data = {
+    id: formData.get("id"),
     photo: formData.get("photo"),
     title: formData.get("title"),
     price: formData.get("price"),
@@ -65,36 +67,89 @@ export async function uploadProduct(_: any, formData: FormData) {
   };
 
   const result = productSchema.safeParse(data);
-  if (!result.success) {
-    return result.error.flatten();
-  } else {
-    const session = await getSession();
-    if (session.id) {
-      const product = await db.product.create({
-        data: {
-          title: result.data.title,
-          description: result.data.description,
-          price: result.data.price,
-          photo: result.data.photo,
-          user: {
-            connect: {
-              id: session.id,
-            },
-          },
+  if (!result.success) return result.error.flatten();
+
+  const session = await getSession();
+  if (!session.id) return;
+
+  const oldProduct = await db.product.findUnique({
+    where: {
+      id: result.data.id,
+    },
+    select: {
+      photo: true,
+    },
+  });
+
+  const newProduct = await db.product.update({
+    where: {
+      id: result.data.id,
+    },
+    data: {
+      title: result.data.title,
+      description: result.data.description,
+      price: result.data.price,
+      photo: result.data.photo,
+      user: {
+        connect: {
+          id: session.id,
         },
-        select: {
-          id: true,
-        },
-      });
-      revalidateTag(`home-product-list`);
-      revalidateTag(`product-detail-${product.id}`);
-      revalidateTag(`product-title-${product.id}`);
-      revalidateTag(`my-product-list`);
-      redirect(`/products/${product.id}`);
-    }
-  }
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  // 수정 전 클라우드에 저장된 이미지 삭제
+  await deleteProductCloudImg(oldProduct!.photo);
+
+  // 캐시 재검증
+  revalidateTag(`home-product-list`);
+  revalidateTag(`product-detail-${newProduct.id}`);
+  revalidateTag(`product-title-${newProduct.id}`);
+  revalidateTag(`my-product-list`);
+
+  // 리다이렉트
+  redirect(`/products/${newProduct.id}`);
 }
 
+async function deleteProductCloudImg(oldProductPhotoUrl: string) {
+  const oldProductPhotoId = oldProductPhotoUrl.split(
+    "https://imagedelivery.net/U3ZvfSHMWBX1DnDWzDMR4A/"
+  )[1];
+
+  await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1/${oldProductPhotoId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+// 수정 전 상품 데이터 가져옴
+export async function getProduct(id: number) {
+  const oldProduct = await db.product.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      description: true,
+      photo: true,
+      userId: true,
+    },
+  });
+  return oldProduct;
+}
+
+// cloudflare의 새로운 업로드 url 가져옴
 export async function getCloudflareUploadUrl() {
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
