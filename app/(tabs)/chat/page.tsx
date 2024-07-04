@@ -6,8 +6,9 @@ export const metadata = {
 
 export default function Chat() {
   return (
-    <div>
+    <div className="p-5">
       <h1 className="text-white text-4xl">Chat!</h1>
+      <div className="text-orange-400 text-lg ">🥕 구현 중입니다.</div>
     </div>
   );
 }

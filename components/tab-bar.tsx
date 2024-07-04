@@ -20,7 +20,7 @@ import { usePathname } from "next/navigation";
 export default function TabBar() {
   const pathname = usePathname();
   return (
-    <div className="fixed bottom-0 w-full mx-auto max-w-screen-sm grid grid-cols-5 border-neutral-600 bg-neutral-900 border-t px-5 py-3 *:text-white">
+    <div className="fixed bottom-0 w-full mx-auto max-w-screen-sm grid grid-cols-4 border-neutral-600 bg-neutral-900 border-t px-5 py-3 *:text-white">
       <Link href="/home" className="flex flex-col items-center gap-px">
         {pathname === "/home" ? (
           <SolidHomeIcon className="text-orange-400 w-7 h-7" />
@@ -51,7 +51,7 @@ export default function TabBar() {
           Chat
         </span>
       </Link>
-      <Link href="/live" className="flex flex-col items-center gap-px">
+      {/* <Link href="/live" className="flex flex-col items-center gap-px">
         {pathname === "/live" ? (
           <SolidVideoCameraIcon className="text-orange-400 w-7 h-7" />
         ) : (
@@ -60,7 +60,7 @@ export default function TabBar() {
         <span className={`${pathname === "/live" ? "text-orange-400" : ""}`}>
           Live
         </span>
-      </Link>
+      </Link> */}
       <Link href="/profile" className="flex flex-col items-center gap-px">
         {pathname === "/profile" ? (
           <SolidUserIcon className="text-orange-400 w-7 h-7" />
