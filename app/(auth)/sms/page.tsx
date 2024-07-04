@@ -1,3 +1,7 @@
+export default function SMSLogin() {
+  return null;
+}
+
 // "use client";
 
 // import Button from "@/components/buttons/Button";
